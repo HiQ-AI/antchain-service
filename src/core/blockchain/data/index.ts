@@ -235,4 +235,23 @@ export class BlockchainData {
       };
     }
   }
+  async queryReceipt(dataId: string,token?: string): Promise<ApiResponse> {
+    const url = `${this.config.restUrl}${blockChainEndpoint.contract.chainCallForBiz}`;
+    const requestBody = {
+      'accessId': this.config.accessId,
+      'bizid': this.config.bizId,
+      'method': 'QUERYRECEIPT',
+      'token': token,
+      'hash': dataId
+    }
+    const headers = {
+      ...defaultHeaders
+    };
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(requestBody)
+    });
+    return await this.processResponse(response, 'Query receipt successful');
+  }
 } 

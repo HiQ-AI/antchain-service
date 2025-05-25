@@ -9,7 +9,7 @@ export interface ContractMethodParams {
   contractName: string;
   methodSignature: string;
   inputParams?: any[];
-  outputTypes?: string[];
+  outputTypes?: string;
   isLocalTransaction?: boolean;
   // WASM合约专用参数
   inputParamListStr?: string; // 传递字符串化的参数数组

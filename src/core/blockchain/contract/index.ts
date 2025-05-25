@@ -57,13 +57,17 @@ export class BlockchainContract {
         account: this.config.account,
         contractName: params.contractName,
         methodSignature: params.methodSignature,
-        inputParams: params.inputParams,
-        outputTypes: params.outputTypes,
         isLocalTransaction: params.isLocalTransaction,
-        method: 'CALLNATIVECONTRACTFORBIZASYNC',
+        method: 'CALLWASMCONTRACTASYNC',
         token,
-        txId: generateUUID(),
-        timestamp: new Date().toISOString()
+        orderId: generateUUID(),
+        timestamp: new Date().toISOString(),
+        mykmsKeyId: this.config.kmsKeyId,
+        inputParamListStr: params.inputParamListStr,
+        outTypes: params.outputTypes,
+        tenantid: this.config.tenantId,
+        gas: 0,
+        withGasHold: false,
       };
 
       // 去除undefined字段
@@ -74,17 +78,6 @@ export class BlockchainContract {
         ...defaultHeaders
         // 不需要Authorization头，token已在body
       };
-
-      // Send request
-/* The code snippet `const response = await sendRequest(url, 'POST', headers, requestBody);` is making
-an asynchronous call to the `sendRequest` function with the specified parameters. */
-
-      // const response = await sendRequest(
-      //   url,
-      //   'POST',
-      //   headers,
-      //   requestBody
-      // );
       const response = await fetch(url, {
         method: 'POST',
         headers: headers,
@@ -180,21 +173,22 @@ an asynchronous call to the `sendRequest` function with the specified parameters
       }
       const url = `${this.config.restUrl}${blockChainEndpoint.contract.chainCallForBiz}`;
       const orderId = generateUUID();
+      console.log('orderId:', orderId);
       const requestBody = {
-        accessId: this.config.accessId,
-        account: this.config.account,
+        orderId: orderId,
         bizid: this.config.bizId,
-        gas: 0,
-        inputParamListStr: '[]',
-        method: 'CALLWASMCONTRACTASYNC',
+        account: this.config.account,
+        contractName: this.config.contractName,
         methodSignature: methodSignature,
         mykmsKeyId: this.config.kmsKeyId,
-        orderId: orderId,
+        method: 'CALLWASMCONTRACTASYNC',
+        inputParamListStr: '[]',
         outTypes: '[string]',
         tenantid: this.config.tenantId,
-        token,
+        gas: 0,
         withGasHold: false,
-        contractName: this.config.contractName
+        token: token,
+        accessId: this.config.accessId,
       };
       const headers = {
         ...defaultHeaders
@@ -252,7 +246,7 @@ an asynchronous call to the `sendRequest` function with the specified parameters
         tenantid: this.config.tenantId,
         token,
         withGasHold: false,
-        contractName: 'tiangong_fist_test_contract_swj'
+        contractName: this.config.contractName
       };
       const headers = {
         ...defaultHeaders

@@ -14,45 +14,34 @@ function base64ToUint8Array(base64Str: string): Uint8Array {
   return bytes;
 }
 
-// 辅助函数：将hex字符串转为Uint8Array
-function hexToUint8Array(hex: string): Uint8Array {
-  if (hex.length % 2 !== 0) throw new Error('Invalid hex string');
-  const bytes = new Uint8Array(hex.length / 2);
-  for (let i = 0; i < hex.length; i += 2) {
-    bytes[i / 2] = parseInt(hex.slice(i, i + 2), 16);
+/**
+ * 解析交易回执结果
+ * @param receiptResult 交易回执结果
+ * @returns 交易回执结果数据
+ */
+function parseReceiptResult(receiptResult: any) {
+  let receiptResultData = receiptResult.data;
+  console.log('receiptResultData:', receiptResultData);
+  if (typeof receiptResultData === 'string') {
+    receiptResultData = JSON.parse(receiptResultData);
   }
-  return bytes;
-}
+  if (receiptResultData.output) {
 
-// 尝试解码合约返回的data字段
-function tryDecodeData(data: any): any {
-  if (typeof data === 'string' && /^[0-9a-fA-F]+$/.test(data) && data.length % 2 === 0) {
-    // 1. hex转Uint8Array
-    let bytes = hexToUint8Array(data);
-    // 2. 去除结尾0x00
-    let end = bytes.length;
-    for (let i = 0; i < bytes.length; i++) {
-      if (bytes[i] === 0) {
-        end = i;
-        break;
+    const outputBytes = base64ToUint8Array(receiptResultData.output);
+    let outputText = '';
+    try {
+      outputText = new TextDecoder().decode(outputBytes);
+      try {
+        const outputJson = JSON.parse(outputText);
+        console.log('合约 output（JSON）:', outputJson);
+      } catch {
+        console.log('合约 output（文本）:', outputText);
       }
-    }
-    bytes = bytes.slice(0, end);
-    // 3. 尝试utf8解码
-    let text = '';
-    try {
-      text = new TextDecoder().decode(bytes);
     } catch {
-      return data;
-    }
-    // 4. 如果是JSON字符串，自动parse
-    try {
-      return JSON.parse(text);
-    } catch {
-      return text;
+      console.log('合约 output（原始字节）:', outputBytes);
     }
   }
-  return data;
+  return receiptResultData;
 }
 
 /**
@@ -74,79 +63,78 @@ async function run() {
 
     // Step 2: Call WASM contract GetName method
     console.log(`\n2. Calling WASM contract GetName() ...`);
-    const getNameResult = await blockchain.contract.callWasmContract(token,'GetName()');
+    // const getNameResult = await blockchain.contract.callWasmContract(token,'GetName()');
+    const params = {
+      inputParams: [],
+      outputTypes: '[string]',
+      contractName: 'carbon-contract-v4',
+      methodSignature: 'GetName()'
+    }
+    const getNameResult = await blockchain.contract.callMethod(params,token);
     console.log('===== Raw GetName response =====');
     console.log(JSON.stringify(getNameResult, null, 2));
     console.log('================================');
     if (!getNameResult.success) {
       throw new Error(`GetName failed: ${getNameResult.message} (Code: ${getNameResult.code})`);
     }
-    const decodedName = tryDecodeData(getNameResult.data);
     console.log('GetName call successful!');
     console.log('GetName 交易hash:', getNameResult.data);
-    const queryResult = await blockchain.data.queryData({ dataId: getNameResult.data });
-    console.log('===== Raw queryData response =====');
-    console.log(JSON.stringify(queryResult, null, 2));
-    if (!queryResult.success) {
-      throw new Error(`queryData failed: ${queryResult.message} (Code: ${queryResult.code})`);
-    }
-    // 尝试解码链上存储的原始数据
-    if (queryResult.data) {
-      try {
-        const resultObj = typeof queryResult.data === 'string' ? JSON.parse(queryResult.data) : queryResult.data;
-        const base64Data = resultObj.transactionDO?.data;
-        if (base64Data) {
-          const decodedText = new TextDecoder().decode(base64ToUint8Array(base64Data));
-          let parsed;
-          try {
-            parsed = JSON.parse(decodedText);
-          } catch {
-            parsed = decodedText;
-          }
-          console.log('链上存储的原始数据:', parsed);
-        } else {
-          console.log('未找到链上原始数据字段');
-        }
-      } catch (error) {
-        console.error('解析链上数据失败:', error);
-      }
+
+    const receiptResult = await blockchain.data.queryReceipt(getNameResult.data,token);
+    console.log('===== Raw receipt response =====');
+    console.log(JSON.stringify(receiptResult, null, 2));
+    console.log('================================');
+    if (!receiptResult.success) {
+      throw new Error(`queryReceipt failed: ${receiptResult.message} (Code: ${receiptResult.code})`);
     }
 
-  //   if (!queryResult.success) {
-  //     throw new Error(`queryData failed: ${queryResult.message} (Code: ${queryResult.code})`);
-  //   }
-  //   const decodedQueryResult = tryDecodeData(queryResult.data);
-  //   console.log('GetName result (decoded):', decodedQueryResult); 
+    const receiptResultData = parseReceiptResult(receiptResult);
+    console.log('receiptResultData:', receiptResultData);
 
-  //   console.log('GetName result (decoded):', decodedName);
+    // Step 3: Call WASM contract setName method
+    const newName = 'newFishName324';
+    const setNameParams = {
+      inputParamListStr: '["' + newName + '"]',
+      outputTypes: '[string]',
+      contractName: 'carbon-contract-v4',
+      methodSignature: 'SetName(string)'
+    }
+    console.log(`\n3. Calling WASM contract setName('${newName}') ...`);
+    const setNameResult = await blockchain.contract.callMethod(setNameParams,token);
+    console.log('===== Raw setName response =====');
+    console.log(JSON.stringify(setNameResult, null, 2));
+    console.log('================================');
+    const setNameReceiptHash = setNameResult.data;
+    // const setNameReceiptHash = '4bcc5b671785136583eab7a1551013f65838384345f21b0a280cfe6da1f7eab0';
 
-  //   // Step 3: Call WASM contract setName method
-  //   const newName = 'newFishName';
-  //   console.log(`\n3. Calling WASM contract setName('${newName}') ...`);
-  //   const setNameResult = await blockchain.contract.setContractName(token, newName);
-  //   console.log('===== Raw setName response =====');
-  //   console.log(JSON.stringify(setNameResult, null, 2));
-  //   console.log('================================');
-  //   if (!setNameResult.success) {
-  //     throw new Error(`setName failed: ${setNameResult.message} (Code: ${setNameResult.code})`);
-  //   }
-  //   console.log('setName call successful!');
-  //   console.log('setName result:', JSON.stringify(setNameResult.data, null, 2));
+    console.log('等待2秒,待交易执行完毕')
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    const setNameReceiptResult = await blockchain.data.queryReceipt(setNameReceiptHash,token);
+    console.log('===== Raw setName receipt response =====');
+    console.log(JSON.stringify(setNameReceiptResult, null, 2));
+    console.log('================================');
+    const setNameReceiptResultData = parseReceiptResult(setNameReceiptResult);
+    console.log('setNameReceiptResultData:', setNameReceiptResultData);
 
-  //   // Step 4: Verify the name was updated
-  //   console.log(`\n4. Verifying updated name with GetName() ...`);
-  //   const verifyResult = await blockchain.contract.callWasmContract(token);
-  //   console.log('===== Raw verify GetName response =====');
-  //   console.log(JSON.stringify(verifyResult, null, 2));
-  //   console.log('================================');
-  //   const verifyDecoded = tryDecodeData(verifyResult.data);
-  //   if (!verifyResult.success) {
-  //     throw new Error(`Verification GetName failed: ${verifyResult.message} (Code: ${verifyResult.code})`);
-  //   }
-  //   console.log('Verification GetName call successful!');
-  //   console.log('Updated name (decoded):', verifyDecoded);
 
-  //   console.log('\nAll WASM contract operations completed successfully!');
+    // Step 4: Call WASM contract GetName method
+    const getNameResult2 = await blockchain.contract.callMethod(params,token);
+    console.log('===== Raw GetName response =====');
+    console.log(JSON.stringify(getNameResult2, null, 2));
+    console.log('================================');
+    if (!getNameResult2.success) {
+      throw new Error(`GetName failed: ${getNameResult2.message} (Code: ${getNameResult2.code})`);
+    }
+    console.log('GetName call successful!');
+    console.log('GetName 交易hash:', getNameResult2.data);
+
+    const getNameResult2ReceiptResult = await blockchain.data.queryReceipt(getNameResult2.data,token);
+    console.log('===== Raw GetName receipt response =====');
+    console.log(JSON.stringify(getNameResult2ReceiptResult, null, 2));
+    console.log('================================');
+    const getNameResult2ReceiptResultData = parseReceiptResult(getNameResult2ReceiptResult);
+    console.log('getNameResult2ReceiptResultData:', getNameResult2ReceiptResultData);
+
   } catch (error) {
     console.error('Error:', error instanceof Error ? error.message : String(error));
     if (error instanceof Error) {
