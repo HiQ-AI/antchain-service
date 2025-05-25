@@ -20,6 +20,7 @@ function base64ToUint8Array(base64Str: string): Uint8Array {
  * @returns 交易回执结果数据
  */
 function parseReceiptResult(receiptResult: any) {
+  let code = receiptResult.code;
   let receiptResultData = receiptResult.data;
   console.log('receiptResultData:', receiptResultData);
   if (typeof receiptResultData === 'string') {
@@ -33,15 +34,19 @@ function parseReceiptResult(receiptResult: any) {
       outputText = new TextDecoder().decode(outputBytes);
       try {
         const outputJson = JSON.parse(outputText);
-        console.log('合约 output（JSON）:', outputJson);
+        // console.log('合约 output（JSON）:', outputJson);
+        return outputJson;
       } catch {
-        console.log('合约 output（文本）:', outputText);
+        // console.log('合约 output（文本）:', outputText);
+        return outputText;
       }
     } catch {
-      console.log('合约 output（原始字节）:', outputBytes);
+      // console.log('合约 output（原始字节）:', outputBytes);
+      return outputBytes;
     }
+  } else {
+    console.log('合约 output 为空');
   }
-  return receiptResultData;
 }
 
 /**
@@ -65,7 +70,7 @@ async function run() {
     console.log(`\n2. Calling WASM contract GetName() ...`);
     // const getNameResult = await blockchain.contract.callWasmContract(token,'GetName()');
     const params = {
-      inputParams: [],
+      inputParamListStr: '[]',
       outputTypes: '[string]',
       contractName: 'carbon-contract-v4',
       methodSignature: 'GetName()'
@@ -145,68 +150,76 @@ async function run() {
 
 interface CarbonRecord {
   uuid: string;
-  data: any;
+  data: string;
 }
 
 async function runCarbonContract() {
   const token = await blockchain.auth.getToken();
+  const data = {
+    carbonAmount: 100,
+    carbonType: 'CO2',
+    timestamp: Date.now()
+  }
   const carbonRecord: CarbonRecord = {
-    uuid: '1234567890',
-    data: {
-      carbonAmount: 100,
-      carbonType: 'CO2',
-      timestamp: Date.now()
-    }
+    uuid: '111123411567890',
+    data: JSON.stringify(data)
   };
   if (!token) {
     throw new Error('Failed to get authentication token');
   }
   console.log('\n=== 调用 AddCarbonRecord 合约方法 ===');
   console.log('参数:', JSON.stringify(carbonRecord, null, 2));
-  const result = await blockchain.contract.callWasmContract(token, `AddCarbonRecord(${JSON.stringify(carbonRecord)})`);
-  console.log('===== Raw QueryCarbonRecord 合约方法 =====');
-  const queryHash = await blockchain.contract.callWasmContract(token, `QueryCarbonRecord(${carbonRecord.uuid})`);
-  console.log(JSON.stringify(result, null, 2));
-  const txHash = result.data;
-  if (!txHash || typeof txHash !== 'string') {
-    throw new Error('AddCarbonRecord未返回有效的交易hash');
+  const inputParamListStr = '[' + carbonRecord.uuid + ',' + JSON.stringify(carbonRecord.data) + ']';
+  console.log('inputParamListStr:', inputParamListStr);
+  const addRecordParams = {
+    inputParamListStr: inputParamListStr,
+    outputTypes: '[string]',
+    contractName: 'carbon-contract-v13',
+    methodSignature: 'AddCarbonRecord(string,string)'
   }
-  console.log('AddCarbonRecord 交易hash:', txHash);
+  const addCarbonRecordResult = await blockchain.contract.callMethod(addRecordParams,token);
+  console.log('===== Raw AddCarbonRecord 合约方法 =====');
+  console.log(JSON.stringify(addCarbonRecordResult, null, 2));
+  console.log('================================');
+  const addCarbonRecordReceiptHash = addCarbonRecordResult.data;
+  console.log('AddCarbonRecord 交易hash:', addCarbonRecordReceiptHash);
 
-  // 使用hash查询链上数据
-  console.log('\n=== 根据交易hash查询链上数据 ===');
-  const queryResult = await blockchain.data.queryData({ dataId: txHash });
-  console.log('===== Raw queryData response =====');
-  console.log(JSON.stringify(queryResult, null, 2));
-  if (!queryResult.success) {
-    throw new Error(`queryData failed: ${queryResult.message} (Code: ${queryResult.code})`);
+  console.log('等待2秒,待交易执行完毕')
+  await new Promise(resolve => setTimeout(resolve, 2000));
+
+  const addCarbonRecordReceiptResult = await blockchain.data.queryReceipt(addCarbonRecordReceiptHash,token);
+  console.log('===== Raw AddCarbonRecord receipt response =====');
+  console.log(JSON.stringify(addCarbonRecordReceiptResult, null, 2));
+  console.log('================================');
+  const addCarbonRecordReceiptResultData = parseReceiptResult(addCarbonRecordReceiptResult);
+  console.log('addCarbonRecordReceiptResultData:', addCarbonRecordReceiptResultData);
+
+  const queryRecordParams = {
+    inputParamListStr: '["' + carbonRecord.uuid + '"]',
+    outputTypes: '[string]',
+    contractName: 'carbon-contract-v13',
+    methodSignature: 'QueryCarbonRecord(string)'
   }
-  // 尝试解码链上存储的原始数据
-  if (queryResult.data) {
-    try {
-      const resultObj = typeof queryResult.data === 'string' ? JSON.parse(queryResult.data) : queryResult.data;
-      const base64Data = resultObj.transactionDO?.data;
-      if (base64Data) {
-        const decodedText = new TextDecoder().decode(base64ToUint8Array(base64Data));
-        let parsed;
-        try {
-          parsed = JSON.parse(decodedText);
-        } catch {
-          parsed = decodedText;
-        }
-        console.log('链上存储的原始数据:', parsed);
-      } else {
-        console.log('未找到链上原始数据字段');
-      }
-    } catch (error) {
-      console.error('解析链上数据失败:', error);
-    }
-  }
+  const queryRecordResult = await blockchain.contract.callMethod(queryRecordParams,token);
+  console.log('===== Raw QueryCarbonRecord 合约方法 =====');
+  console.log(JSON.stringify(queryRecordResult, null, 2));
+  console.log('================================');
+  const queryRecordReceiptHash = queryRecordResult.data;
+  console.log('QueryCarbonRecord 交易hash:', queryRecordReceiptHash);
+
+  const queryRecordReceiptResult = await blockchain.data.queryReceipt(queryRecordReceiptHash,token);
+  console.log('===== Raw QueryCarbonRecord receipt response =====');
+  console.log(JSON.stringify(queryRecordReceiptResult, null, 2));
+  console.log('================================');
+  const queryRecordReceiptResultData = parseReceiptResult(queryRecordReceiptResult);
+  console.log('queryRecordReceiptResultData:', queryRecordReceiptResultData);
+
+
 }
 
 // Run the example  
-run();
-// runCarbonContract();
+// run();
+runCarbonContract();
 
 // Execute with:
 // deno run -A src/examples/contract-example.ts
