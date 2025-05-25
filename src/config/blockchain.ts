@@ -5,6 +5,7 @@ export interface BlockchainConfig {
     account: string;
     bizId: string;
     kmsKeyId: string;
+    contractName: string;
   }
   
   /**
@@ -16,7 +17,8 @@ export interface BlockchainConfig {
     tenantId: '80cd5f70-a6fa-4b64-97f1-7b22c2d3d88e',
     account: 'shi',
     bizId: 'M250226181949',
-    kmsKeyId: '80cd5f70-a6fa-4b64-97f1-7b22c2d3d88e_1741933298091_key'
+    kmsKeyId: '80cd5f70-a6fa-4b64-97f1-7b22c2d3d88e_1741933298091_key',
+    contractName: 'carbon-contract-v4'
   };
 
 export const blockChainEndpoint = {

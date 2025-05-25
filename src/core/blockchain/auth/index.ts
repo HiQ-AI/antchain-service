@@ -1,5 +1,6 @@
 import { BlockchainConfig, defaultConfig, blockChainEndpoint } from 'src/config/blockchain.ts';
 import * as path from 'std/path/mod.ts';
+import { BaseContract } from '@antchain/myassembly';
 
 // Constants
 // Path to the private key file (relative to project root)

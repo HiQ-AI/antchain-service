@@ -5,7 +5,7 @@ import {
   sendRequest, 
   parseResponse
 } from '../base.ts';
-import { BlockchainConfig, defaultConfig } from 'src/config/blockchain.ts';
+import { BlockchainConfig, defaultConfig,blockChainEndpoint } from 'src/config/blockchain.ts';
 import { BlockchainAuth } from '../auth/index.ts';
 import { ContractMethodParams, ContractDeployParams } from './types.ts';
 
@@ -49,29 +49,48 @@ export class BlockchainContract {
         token = authToken;
       }
 
-      const url = `${this.config.restUrl}/contract/call`;
-      
-      // Prepare request body
-      const requestBody = {
-        ...params,
-        txId: generateUUID(), // Generate transaction ID
+      const url = `${this.config.restUrl}${blockChainEndpoint.contract.chainCallForBiz}`;
+
+      const requestBody: Record<string, any> = {
+        accessId: this.config.accessId,
+        bizid: this.config.bizId,
+        account: this.config.account,
+        contractName: params.contractName,
+        methodSignature: params.methodSignature,
+        inputParams: params.inputParams,
+        outputTypes: params.outputTypes,
+        isLocalTransaction: params.isLocalTransaction,
+        method: 'CALLNATIVECONTRACTFORBIZASYNC',
+        token,
+        txId: generateUUID(),
         timestamp: new Date().toISOString()
       };
-      
+
+      // 去除undefined字段
+      Object.keys(requestBody).forEach(key => requestBody[key] === undefined && delete requestBody[key]);
+
       // Prepare headers
       const headers = {
-        ...defaultHeaders,
-        'Authorization': `Bearer ${token}`
+        ...defaultHeaders
+        // 不需要Authorization头，token已在body
       };
-      
+
       // Send request
-      const response = await sendRequest(
-        url,
-        'POST',
-        headers,
-        requestBody
-      );
-      
+/* The code snippet `const response = await sendRequest(url, 'POST', headers, requestBody);` is making
+an asynchronous call to the `sendRequest` function with the specified parameters. */
+
+      // const response = await sendRequest(
+      //   url,
+      //   'POST',
+      //   headers,
+      //   requestBody
+      // );
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(requestBody)
+      });
+
       return await parseResponse(response);
     } catch (error) {
       console.error('Error calling contract method:', error);
@@ -107,7 +126,7 @@ export class BlockchainContract {
         token = authToken;
       }
 
-      const url = `${this.config.restUrl}/contract/deploy`;
+      const url = `${this.config.restUrl}${blockChainEndpoint.contract.chainCallForBiz}`;
       
       // Prepare request body
       const requestBody = {
@@ -136,6 +155,120 @@ export class BlockchainContract {
       return {
         success: false,
         message: 'Failed to deploy contract',
+        code: 'REQUEST_ERROR'
+      };
+    }
+  }
+
+  /**
+   * Call a WASM contract method (e.g., GetName)
+   * @param token Authentication token
+   * @returns Response containing the call result
+   */
+  async callWasmContract(token?: string,methodSignature:string='GetName()'): Promise<ApiResponse> {
+    try {
+      if (!token) {
+        const authToken = await this.auth.getToken();
+        if (!authToken) {
+          return {
+            success: false,
+            message: 'Authentication failed',
+            code: 'AUTH_ERROR'
+          };
+        }
+        token = authToken;
+      }
+      const url = `${this.config.restUrl}${blockChainEndpoint.contract.chainCallForBiz}`;
+      const orderId = generateUUID();
+      const requestBody = {
+        accessId: this.config.accessId,
+        account: this.config.account,
+        bizid: this.config.bizId,
+        gas: 0,
+        inputParamListStr: '[]',
+        method: 'CALLWASMCONTRACTASYNC',
+        methodSignature: methodSignature,
+        mykmsKeyId: this.config.kmsKeyId,
+        orderId: orderId,
+        outTypes: '[string]',
+        tenantid: this.config.tenantId,
+        token,
+        withGasHold: false,
+        contractName: this.config.contractName
+      };
+      const headers = {
+        ...defaultHeaders
+      };
+      const response = await sendRequest(
+        url,
+        'POST',
+        headers,
+        requestBody
+      );
+      return await parseResponse(response);
+    } catch (error) {
+      console.error('Error calling WASM contract:', error);
+      return {
+        success: false,
+        message: 'Failed to call WASM contract',
+        code: 'REQUEST_ERROR'
+      };
+    }
+  }
+
+  /**
+   * Set WASM contract name (setName)
+   * @param token Authentication token
+   * @param newName New name to set
+   * @returns Response containing the set result
+   */
+  async setContractName(token: string, newName: string): Promise<ApiResponse> {
+    try {
+      if (!token) {
+        const authToken = await this.auth.getToken();
+        if (!authToken) {
+          return {
+            success: false,
+            message: 'Authentication failed',
+            code: 'AUTH_ERROR'
+          };
+        }
+        token = authToken;
+      }
+      const url = `${this.config.restUrl}${blockChainEndpoint.contract.chainCallForBiz}`;
+      const orderId = generateUUID();
+      const requestBody = {
+        accessId: this.config.accessId,
+        account: this.config.account,
+        bizid: this.config.bizId,
+        gas: 0,
+        inputParamListStr: JSON.stringify([newName]),
+        method: 'CALLWASMCONTRACTASYNC',
+        methodSignature: 'setName(string)',
+        isLocalTransaction: true,
+        mykmsKeyId: this.config.kmsKeyId,
+        orderId: orderId,
+        outTypes: '[]',
+        tenantid: this.config.tenantId,
+        token,
+        withGasHold: false,
+        contractName: 'tiangong_fist_test_contract_swj'
+      };
+      const headers = {
+        ...defaultHeaders
+      };
+      const response = await sendRequest(
+        url,
+        'POST',
+        headers,
+        requestBody
+      );
+      return await parseResponse(response);
+    } catch (error) {
+      console.error('Error setting contract name:', error);
+      return {
+        success: false,
+        message: 'Failed to set contract name',
         code: 'REQUEST_ERROR'
       };
     }
