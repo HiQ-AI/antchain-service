@@ -13,22 +13,23 @@ export { encodeHex, decodeHex } from "std/encoding/hex.ts";
 export * as path from "std/path/mod.ts";
 
 // ======== Web 框架 ========
-// Oak 框架
-export { 
-  Application, 
-  Router, 
-  Context, 
-  Status, 
-  isHttpError,
-  httpErrors 
-} from "https://deno.land/x/oak@v11.1.0/mod.ts";
+// Hono 框架
+export { Hono } from "https://deno.land/x/hono@v3.12.8/mod.ts";
+export type { Context, Handler, MiddlewareHandler } from "https://deno.land/x/hono@v3.12.8/mod.ts";
+export { HTTPException } from "https://deno.land/x/hono@v3.12.8/http-exception.ts";
+export { cors } from "https://deno.land/x/hono@v3.12.8/middleware.ts";
+export { logger as honoLogger } from "https://deno.land/x/hono@v3.12.8/middleware.ts";
 
-export type { 
-  RouterContext, 
-  Middleware, 
-  State,
-  RouteParams
-} from "https://deno.land/x/oak@v11.1.0/mod.ts";
+// HTTP Status 常量
+export const Status = {
+  OK: 200,
+  Created: 201,
+  BadRequest: 400,
+  Unauthorized: 401,
+  Forbidden: 403,
+  NotFound: 404,
+  InternalServerError: 500
+} as const;
 
 // ======== 工具库 ========
 // UUID 生成

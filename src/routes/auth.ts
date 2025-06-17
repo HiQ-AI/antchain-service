@@ -1,23 +1,21 @@
-import { Router, Status } from "../deps.ts";
+import { Hono, Status } from "../deps.ts";
 import { AuthService } from "../services/auth.ts";
 
-const router = new Router({ prefix: "/api/auth" });
+const router = new Hono();
 
 // 登录接口
-router.post("/token", async (ctx) => {
+router.post("/token", async (c) => {
   try {
     // 获取请求体
-    const body = await ctx.request.body({ type: "json" }).value;
+    const body = await c.req.json();
     
     // 验证必要字段
     if (!body.username || !body.password) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "MISSING_CREDENTIALS",
         message: "用户名和密码是必填字段"
-      };
-      return;
+      }, Status.BadRequest);
     }
     
     // 验证用户凭据
@@ -32,7 +30,7 @@ router.post("/token", async (ctx) => {
         expiresIn
       );
       
-      ctx.response.body = {
+      return c.json({
         success: true,
         data: {
           token,
@@ -41,34 +39,33 @@ router.post("/token", async (ctx) => {
           role: authResult.role,
           nodeId: authResult.nodeId
         }
-      };
+      });
     } else {
-      ctx.response.status = Status.Unauthorized;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "INVALID_CREDENTIALS",
         message: authResult.message || "授权失败"
-      };
+      }, Status.Unauthorized);
     }
   } catch (error) {
-    ctx.response.status = Status.InternalServerError;
-    ctx.response.body = {
+    return c.json({
       success: false,
       code: "AUTH_ERROR",
       message: "认证服务出错"
-    };
+    }, Status.InternalServerError);
   }
 });
 
 // 令牌验证接口（用于客户端主动检查令牌有效性）
-router.get("/verify", (ctx) => {
+router.get("/verify", (c) => {
   // 这个接口利用了全局auth中间件进行验证
   // 如果代码能执行到这里，说明令牌有效
   
-  // 返回用户信息
-  const { role, nodeId } = ctx.state.user;
+  // 从Hono上下文获取用户信息
+  const user = c.get('user');
+  const { role, nodeId } = user || {};
   
-  ctx.response.body = {
+  return c.json({
     success: true,
     data: {
       role,
@@ -77,7 +74,7 @@ router.get("/verify", (ctx) => {
         ? ["read", "write", "admin", "create_task", "view_result"] 
         : (role === "node" ? ["read", "write", "push_data"] : ["read"])
     }
-  };
+  });
 });
 
 export { router as authRouter }; 

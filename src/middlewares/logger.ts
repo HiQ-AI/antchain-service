@@ -1,22 +1,19 @@
-import { Context } from "../deps.ts";
+import { MiddlewareHandler } from "../deps.ts";
 
 /**
- * Logger middleware for Oak
+ * Logger middleware for Hono
  * Logs HTTP requests with method, path, status and response time
  */
-export const loggerMiddleware = async (
-  ctx: Context,
-  next: () => Promise<unknown>
-): Promise<void> => {
+export const loggerMiddleware: MiddlewareHandler = async (c, next) => {
   const start = Date.now();
   const requestId = crypto.randomUUID();
   
   // Add request ID to the context for tracking
-  ctx.state.requestId = requestId;
+  c.set('requestId', requestId);
   
   // Log request start
   console.log(
-    `[${new Date().toISOString()}] [${requestId}] --> ${ctx.request.method} ${ctx.request.url}`
+    `[${new Date().toISOString()}] [${requestId}] --> ${c.req.method} ${c.req.url}`
   );
   
   // Process the request
@@ -25,8 +22,8 @@ export const loggerMiddleware = async (
   // Calculate processing time
   const ms = Date.now() - start;
   
-  // Log request completion
+  // Log request completion - We'll get the status from the response
   console.log(
-    `[${new Date().toISOString()}] [${requestId}] <-- ${ctx.request.method} ${ctx.request.url} ${ctx.response.status} (${ms}ms)`
+    `[${new Date().toISOString()}] [${requestId}] <-- ${c.req.method} ${c.req.url} (${ms}ms)`
   );
 }; 

@@ -1,11 +1,20 @@
-import { Router, Status, PrivacyComputeType } from "../deps.ts";
+import { Hono, Status } from "../deps.ts";
 import { PrivacyService } from "../services/privacy.ts";
 
-const router = new Router({ prefix: "/api/admin" });
+// 定义隐私计算类型枚举
+enum PrivacyComputeType {
+  TEE = "TEE",
+  MPC = "MPC", 
+  FHE = "FHE",
+  FEDERATED = "FEDERATED",
+  SMPC = "SMPC"
+}
+
+const router = new Hono();
 
 // 获取所有支持的隐私计算类型
-router.get("/compute-types", (ctx) => {
-  ctx.response.body = {
+router.get("/compute-types", (c) => {
+  return c.json({
     success: true,
     data: {
       types: Object.values(PrivacyComputeType),
@@ -17,35 +26,31 @@ router.get("/compute-types", (ctx) => {
         [PrivacyComputeType.SMPC]: "安全多方计算 - 多方在保护隐私的前提下共同计算"
       }
     }
-  };
+  });
 });
 
 // 创建隐私计算任务
-router.post("/tasks", async (ctx) => {
+router.post("/tasks", async (c) => {
   try {
     // 获取请求体
-    const body = await ctx.request.body({ type: "json" }).value;
+    const body = await c.req.json();
     
     // 验证必要字段
     if (!body.computeType || !body.inputData) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "MISSING_FIELDS",
         message: "计算类型和输入数据是必填字段"
-      };
-      return;
+      }, Status.BadRequest);
     }
     
     // 验证计算类型是否有效
     if (!Object.values(PrivacyComputeType).includes(body.computeType)) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "INVALID_COMPUTE_TYPE",
         message: `无效的计算类型: ${body.computeType}，支持的类型: ${Object.values(PrivacyComputeType).join(", ")}`
-      };
-      return;
+      }, Status.BadRequest);
     }
     
     // 创建任务参数
@@ -69,205 +74,197 @@ router.post("/tasks", async (ctx) => {
     const result = await PrivacyService.createTask(params, resultConfig);
     
     if (result.success) {
-      ctx.response.status = Status.Created;
-      ctx.response.body = {
+      return c.json({
         success: true,
         data: {
           taskId: result.taskId,
           message: "隐私计算任务创建成功"
         }
-      };
+      }, Status.Created);
     } else {
-      ctx.response.status = Status.InternalServerError;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "TASK_CREATION_FAILED",
         message: result.message || "创建隐私计算任务失败"
-      };
+      }, Status.InternalServerError);
     }
   } catch (error) {
-    ctx.response.status = Status.InternalServerError;
-    ctx.response.body = {
+    return c.json({
       success: false,
       code: "SERVER_ERROR",
       message: "服务器处理请求时发生错误"
-    };
+    }, Status.InternalServerError);
   }
 });
 
 // 获取任务状态
-router.get("/tasks/:taskId/status", async (ctx) => {
+router.get("/tasks/:taskId/status", async (c) => {
   try {
-    const { taskId } = ctx.params;
+    const taskId = c.req.param('taskId');
     
     if (!taskId) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "MISSING_TASK_ID",
         message: "缺少任务ID"
-      };
-      return;
+      }, Status.BadRequest);
     }
     
     // 调用服务获取任务状态
     const result = await PrivacyService.getTaskStatus(taskId);
     
     if (result.success) {
-      ctx.response.body = {
+      return c.json({
         success: true,
         data: {
           taskId,
           status: result.status,
           progress: result.progress || 0
         }
-      };
+      });
     } else {
-      ctx.response.status = Status.InternalServerError;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "STATUS_QUERY_FAILED",
         message: result.message || "查询任务状态失败"
-      };
+      }, Status.InternalServerError);
     }
   } catch (error) {
-    ctx.response.status = Status.InternalServerError;
-    ctx.response.body = {
+    return c.json({
       success: false,
       code: "SERVER_ERROR",
       message: "服务器处理请求时发生错误"
-    };
+    }, Status.InternalServerError);
   }
 });
 
 // 获取计算结果
-router.get("/tasks/:taskId/result", async (ctx) => {
+router.get("/tasks/:taskId/result", async (c) => {
   try {
-    const { taskId } = ctx.params;
+    const taskId = c.req.param('taskId');
     
     if (!taskId) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "MISSING_TASK_ID",
         message: "缺少任务ID"
-      };
-      return;
+      }, Status.BadRequest);
     }
     
     // 调用服务获取计算结果
     const result = await PrivacyService.getTaskResult(taskId);
     
     if (result.success) {
-      ctx.response.body = {
+      return c.json({
         success: true,
         data: {
           taskId,
           result: result.result,
           proof: result.proof
         }
-      };
+      });
     } else {
       // 使用400状态码，因为任务可能未完成而非服务器错误
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "RESULT_QUERY_FAILED",
         message: result.message || "获取计算结果失败"
-      };
+      }, Status.BadRequest);
     }
   } catch (error) {
-    ctx.response.status = Status.InternalServerError;
-    ctx.response.body = {
+    return c.json({
       success: false,
       code: "SERVER_ERROR",
       message: "服务器处理请求时发生错误"
-    };
+    }, Status.InternalServerError);
   }
 });
 
 // 取消任务
-router.delete("/tasks/:taskId", async (ctx) => {
+router.delete("/tasks/:taskId", async (c) => {
   try {
-    const { taskId } = ctx.params;
+    const taskId = c.req.param('taskId');
     
     if (!taskId) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "MISSING_TASK_ID",
         message: "缺少任务ID"
-      };
-      return;
+      }, Status.BadRequest);
     }
     
-    // 获取取消原因（可选）
-    let reason = "管理员手动取消";
-    try {
-      const body = await ctx.request.body({ type: "json" }).value;
-      if (body && body.reason) {
-        reason = body.reason;
-      }
-    } catch (e) {
-      // 忽略解析错误，使用默认原因
-    }
+    // 获取取消原因
+    const body = await c.req.json().catch(() => ({}));
+    const reason = body.reason || "管理员取消";
     
     // 调用服务取消任务
     const result = await PrivacyService.cancelTask(taskId, reason);
     
     if (result.success) {
-      ctx.response.body = {
+      return c.json({
         success: true,
-        data: {
-          taskId,
-          message: "任务已成功取消"
-        }
-      };
+        message: "任务取消成功"
+      });
     } else {
-      ctx.response.status = Status.InternalServerError;
-      ctx.response.body = {
+      return c.json({
         success: false,
-        code: "TASK_CANCELLATION_FAILED",
+        code: "CANCEL_FAILED",
         message: result.message || "取消任务失败"
-      };
+      }, Status.InternalServerError);
     }
   } catch (error) {
-    ctx.response.status = Status.InternalServerError;
-    ctx.response.body = {
+    return c.json({
       success: false,
       code: "SERVER_ERROR",
       message: "服务器处理请求时发生错误"
-    };
+    }, Status.InternalServerError);
   }
 });
 
-// 获取所有任务列表（实际项目中应增加分页和筛选功能）
-router.get("/tasks", (ctx) => {
-  // 此处应访问数据库或区块链获取任务列表
-  // 由于我们的中间件没有此功能，这里只返回一个假示例
-  ctx.response.body = {
-    success: true,
-    data: {
-      tasks: [
-        {
-          taskId: "示例任务ID-1",
-          computeType: PrivacyComputeType.TEE,
-          status: "COMPLETED",
-          createTime: new Date(Date.now() - 86400000).toISOString(),
-          completedTime: new Date().toISOString()
-        },
-        {
-          taskId: "示例任务ID-2",
-          computeType: PrivacyComputeType.MPC,
-          status: "PROCESSING",
-          createTime: new Date().toISOString(),
-          progress: 45
+// 获取任务列表 (示例实现)
+router.get("/tasks", async (c) => {
+  try {
+    const query = c.req.query();
+    const page = parseInt(query.page || '1');
+    const limit = parseInt(query.limit || '10');
+    
+    // 示例数据，实际应该从数据库或区块链获取
+    const mockTasks = [
+      {
+        taskId: "task-1",
+        computeType: PrivacyComputeType.TEE,
+        status: "COMPLETED",
+        createTime: new Date(Date.now() - 86400000).toISOString(),
+        completedTime: new Date().toISOString()
+      },
+      {
+        taskId: "task-2", 
+        computeType: PrivacyComputeType.MPC,
+        status: "PROCESSING",
+        createTime: new Date().toISOString(),
+        progress: 45
+      }
+    ];
+    
+    return c.json({
+      success: true,
+      data: {
+        tasks: mockTasks,
+        pagination: {
+          page,
+          limit,
+          total: mockTasks.length,
+          totalPages: Math.ceil(mockTasks.length / limit)
         }
-      ],
-      total: 2,
-      message: "注意: 这是示例数据，实际应用中需连接数据库或区块链"
-    }
-  };
+      }
+    });
+  } catch (error) {
+    return c.json({
+      success: false,
+      code: "SERVER_ERROR",
+      message: "服务器处理请求时发生错误"
+    }, Status.InternalServerError);
+  }
 });
 
 export { router as adminRouter }; 

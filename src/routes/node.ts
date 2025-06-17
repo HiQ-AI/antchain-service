@@ -1,15 +1,16 @@
-import { Router, Status } from "../deps.ts";
+import { Hono, Status } from "../deps.ts";
 import { PrivacyService } from "../services/privacy.ts";
 
-const router = new Router({ prefix: "/api/node" });
+const router = new Hono();
 
 // 获取当前节点可参与的任务列表
-router.get("/available-tasks", (ctx) => {
+router.get("/available-tasks", (c) => {
   // 在实际项目中应该查询适合该节点参与的任务
   // 这里返回示例数据
-  const nodeId = ctx.state.user?.nodeId || "未知节点";
+  const user = c.get('user');
+  const nodeId = user?.nodeId || "未知节点";
   
-  ctx.response.body = {
+  return c.json({
     success: true,
     data: {
       tasks: [
@@ -32,22 +33,20 @@ router.get("/available-tasks", (ctx) => {
       ],
       message: `节点 ${nodeId} 可参与的任务`
     }
-  };
+  });
 });
 
 // 获取任务详情
-router.get("/tasks/:taskId", async (ctx) => {
+router.get("/tasks/:taskId", async (c) => {
   try {
-    const { taskId } = ctx.params;
+    const taskId = c.req.param('taskId');
     
     if (!taskId) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "MISSING_TASK_ID",
         message: "缺少任务ID"
-      };
-      return;
+      }, Status.BadRequest);
     }
     
     // 调用服务获取任务状态
@@ -55,7 +54,7 @@ router.get("/tasks/:taskId", async (ctx) => {
     
     if (result.success) {
       // 实际项目中应从数据库获取更多任务详情
-      ctx.response.body = {
+      return c.json({
         success: true,
         data: {
           taskId,
@@ -75,93 +74,87 @@ router.get("/tasks/:taskId", async (ctx) => {
             }
           }
         }
-      };
+      });
     } else {
-      ctx.response.status = Status.InternalServerError;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "TASK_QUERY_FAILED",
         message: result.message || "查询任务详情失败"
-      };
+      }, Status.InternalServerError);
     }
   } catch (error) {
-    ctx.response.status = Status.InternalServerError;
-    ctx.response.body = {
+    return c.json({
       success: false,
       code: "SERVER_ERROR",
       message: "服务器处理请求时发生错误"
-    };
+    }, Status.InternalServerError);
   }
 });
 
 // 推送数据到任务
-router.post("/tasks/:taskId/data", async (ctx) => {
+router.post("/tasks/:taskId/data", async (c) => {
   try {
-    const { taskId } = ctx.params;
+    const taskId = c.req.param('taskId');
     
     if (!taskId) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "MISSING_TASK_ID",
         message: "缺少任务ID"
-      };
-      return;
+      }, Status.BadRequest);
     }
     
     // 获取请求体
-    const body = await ctx.request.body({ type: "json" }).value;
+    const body = await c.req.json();
     
     if (!body.data) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "MISSING_DATA",
         message: "缺少数据字段"
-      };
-      return;
+      }, Status.BadRequest);
     }
     
     // 获取节点ID
-    const nodeId = ctx.state.user?.nodeId || "unknown";
+    const user = c.get('user');
+    const nodeId = user?.nodeId || "unknown";
     
     // 调用服务推送数据
     const result = await PrivacyService.pushData(taskId, body.data, nodeId);
     
     if (result.success) {
-      ctx.response.body = {
+      return c.json({
         success: true,
         data: {
           taskId,
           message: "数据推送成功",
           timestamp: new Date().toISOString()
         }
-      };
+      });
     } else {
-      ctx.response.status = Status.InternalServerError;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "DATA_PUSH_FAILED",
         message: result.message || "推送数据失败"
-      };
+      }, Status.InternalServerError);
     }
   } catch (error) {
-    ctx.response.status = Status.InternalServerError;
-    ctx.response.body = {
+    return c.json({
       success: false,
       code: "SERVER_ERROR",
       message: "服务器处理请求时发生错误"
-    };
+    }, Status.InternalServerError);
   }
 });
 
 // 获取节点参与的任务列表
-router.get("/my-tasks", (ctx) => {
+router.get("/my-tasks", (c) => {
   // 在实际项目中应该查询节点参与的任务
   // 这里返回示例数据
-  const nodeId = ctx.state.user?.nodeId || "未知节点";
+  const user = c.get('user');
+  const nodeId = user?.nodeId || "未知节点";
   
-  ctx.response.body = {
+  return c.json({
     success: true,
     data: {
       tasks: [
@@ -182,58 +175,54 @@ router.get("/my-tasks", (ctx) => {
       ],
       message: `节点 ${nodeId} 参与的任务`
     }
-  };
+  });
 });
 
 // 节点报告任务问题
-router.post("/tasks/:taskId/report", async (ctx) => {
+router.post("/tasks/:taskId/report", async (c) => {
   try {
-    const { taskId } = ctx.params;
+    const taskId = c.req.param('taskId');
     
     if (!taskId) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+      return c.json({
         success: false,
         code: "MISSING_TASK_ID",
         message: "缺少任务ID"
-      };
-      return;
+      }, Status.BadRequest);
     }
     
     // 获取请求体
-    const body = await ctx.request.body({ type: "json" }).value;
+    const body = await c.req.json();
     
-    if (!body.reason) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = {
+    if (!body.issue) {
+      return c.json({
         success: false,
-        code: "MISSING_REASON",
-        message: "缺少报告原因"
-      };
-      return;
+        code: "MISSING_ISSUE",
+        message: "缺少问题描述"
+      }, Status.BadRequest);
     }
     
     // 获取节点ID
-    const nodeId = ctx.state.user?.nodeId || "unknown";
+    const user = c.get('user');
+    const nodeId = user?.nodeId || "unknown";
     
-    // 实际项目中应保存报告信息到数据库
-    // 这里只返回成功响应
-    ctx.response.body = {
+    // 记录问题报告（实际项目中应该保存到数据库）
+    console.log(`节点 ${nodeId} 报告任务 ${taskId} 问题:`, body.issue);
+    
+    return c.json({
       success: true,
       data: {
         taskId,
-        reportId: crypto.randomUUID(),
-        message: "问题报告已提交，管理员将尽快处理",
-        reportTime: new Date().toISOString()
+        message: "问题报告已提交",
+        timestamp: new Date().toISOString()
       }
-    };
+    });
   } catch (error) {
-    ctx.response.status = Status.InternalServerError;
-    ctx.response.body = {
+    return c.json({
       success: false,
       code: "SERVER_ERROR",
       message: "服务器处理请求时发生错误"
-    };
+    }, Status.InternalServerError);
   }
 });
 
