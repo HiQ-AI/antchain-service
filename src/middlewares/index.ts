@@ -1,17 +1,16 @@
 /**
- * 中间件统一导出文件
- * 提供所有HTTP中间件的访问点
+ * Middlewares 中间件导出
+ * 提供HTTP请求处理的中间件功能
  */
 
-// 导入中间件
-import { authMiddleware, UserRole } from './auth.ts';
-import { errorMiddleware } from './error.ts';
-import { loggerMiddleware } from './logger.ts';
+// 认证中间件
+export { authMiddleware } from './auth.ts';
 
-// 导出所有中间件
-export { authMiddleware, UserRole };
-export { errorMiddleware };
-export { loggerMiddleware };
+// 错误处理中间件
+export { errorMiddleware } from './error.ts';
+
+// 日志中间件
+export { loggerMiddleware } from './logger.ts';
 
 // 导出核心区块链功能
 // 这允许从一个导入点访问所有功能

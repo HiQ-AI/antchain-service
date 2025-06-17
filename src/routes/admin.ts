@@ -1,18 +1,13 @@
 import { Hono, Status } from "../deps.ts";
-import { PrivacyService } from "../services/privacy.ts";
-
-// 定义隐私计算类型枚举
-enum PrivacyComputeType {
-  TEE = "TEE",
-  MPC = "MPC", 
-  FHE = "FHE",
-  FEDERATED = "FEDERATED",
-  SMPC = "SMPC"
-}
+import { BlockchainService } from "../services/blockchain.ts";
+import { PrivacyComputeType } from "../core/blockchain/index.ts";
 
 const router = new Hono();
 
-// 获取所有支持的隐私计算类型
+/**
+ * 获取所有支持的隐私计算类型
+ * GET /api/admin/compute-types
+ */
 router.get("/compute-types", (c) => {
   return c.json({
     success: true,
@@ -29,11 +24,14 @@ router.get("/compute-types", (c) => {
   });
 });
 
-// 创建隐私计算任务
-router.post("/tasks", async (c) => {
+/**
+ * 创建隐私计算任务
+ * POST /api/admin/privacy/tasks
+ */
+router.post("/privacy/tasks", async (c) => {
   try {
-    // 获取请求体
     const body = await c.req.json();
+    const token = c.get('token');
     
     // 验证必要字段
     if (!body.computeType || !body.inputData) {
@@ -49,46 +47,38 @@ router.post("/tasks", async (c) => {
       return c.json({
         success: false,
         code: "INVALID_COMPUTE_TYPE",
-        message: `无效的计算类型: ${body.computeType}，支持的类型: ${Object.values(PrivacyComputeType).join(", ")}`
+        message: `无效的计算类型: ${body.computeType}`
       }, Status.BadRequest);
     }
     
-    // 创建任务参数
+    // 构建任务参数
     const params = {
       computeType: body.computeType,
       inputData: body.inputData,
-      encryptionLevel: body.encryptionLevel,
-      timeoutSeconds: body.timeoutSeconds,
-      parties: body.parties,
-      resultEncrypted: body.resultEncrypted
+      encryptionLevel: body.encryptionLevel || 1,
+      timeoutSeconds: body.timeoutSeconds || 600,
+      parties: body.parties || [],
+      resultEncrypted: body.resultEncrypted !== false
     };
     
-    // 结果配置
-    const resultConfig = {
-      callbackUrl: body.callbackUrl,
-      saveToBlockchain: body.saveToBlockchain !== false, // 默认为true
-      notifyParties: body.notifyParties !== false // 默认为true
-    };
-    
-    // 调用服务创建任务
-    const result = await PrivacyService.createTask(params, resultConfig);
+    // 调用区块链服务创建任务
+    const result = await BlockchainService.createPrivacyTask(params, token);
     
     if (result.success) {
       return c.json({
         success: true,
-        data: {
-          taskId: result.taskId,
-          message: "隐私计算任务创建成功"
-        }
+        data: result.data,
+        message: "隐私计算任务创建成功"
       }, Status.Created);
     } else {
       return c.json({
         success: false,
-        code: "TASK_CREATION_FAILED",
+        code: result.code || "TASK_CREATION_FAILED",
         message: result.message || "创建隐私计算任务失败"
       }, Status.InternalServerError);
     }
   } catch (error) {
+    console.error("Create privacy task error:", error);
     return c.json({
       success: false,
       code: "SERVER_ERROR",
@@ -97,10 +87,14 @@ router.post("/tasks", async (c) => {
   }
 });
 
-// 获取任务状态
-router.get("/tasks/:taskId/status", async (c) => {
+/**
+ * 获取隐私计算任务状态
+ * GET /api/admin/privacy/tasks/:taskId/status
+ */
+router.get("/privacy/tasks/:taskId/status", async (c) => {
   try {
     const taskId = c.req.param('taskId');
+    const token = c.get('token');
     
     if (!taskId) {
       return c.json({
@@ -110,26 +104,23 @@ router.get("/tasks/:taskId/status", async (c) => {
       }, Status.BadRequest);
     }
     
-    // 调用服务获取任务状态
-    const result = await PrivacyService.getTaskStatus(taskId);
+    // 调用区块链服务获取任务状态
+    const result = await BlockchainService.getPrivacyTaskStatus(taskId, token);
     
     if (result.success) {
       return c.json({
         success: true,
-        data: {
-          taskId,
-          status: result.status,
-          progress: result.progress || 0
-        }
+        data: result.data
       });
     } else {
       return c.json({
         success: false,
-        code: "STATUS_QUERY_FAILED",
+        code: result.code || "STATUS_QUERY_FAILED",
         message: result.message || "查询任务状态失败"
       }, Status.InternalServerError);
     }
   } catch (error) {
+    console.error("Get task status error:", error);
     return c.json({
       success: false,
       code: "SERVER_ERROR",
@@ -138,10 +129,14 @@ router.get("/tasks/:taskId/status", async (c) => {
   }
 });
 
-// 获取计算结果
-router.get("/tasks/:taskId/result", async (c) => {
+/**
+ * 获取隐私计算结果
+ * GET /api/admin/privacy/tasks/:taskId/result
+ */
+router.get("/privacy/tasks/:taskId/result", async (c) => {
   try {
     const taskId = c.req.param('taskId');
+    const token = c.get('token');
     
     if (!taskId) {
       return c.json({
@@ -151,27 +146,23 @@ router.get("/tasks/:taskId/result", async (c) => {
       }, Status.BadRequest);
     }
     
-    // 调用服务获取计算结果
-    const result = await PrivacyService.getTaskResult(taskId);
+    // 调用区块链服务获取计算结果
+    const result = await BlockchainService.getPrivacyResult(taskId, token);
     
     if (result.success) {
       return c.json({
         success: true,
-        data: {
-          taskId,
-          result: result.result,
-          proof: result.proof
-        }
+        data: result.data
       });
     } else {
-      // 使用400状态码，因为任务可能未完成而非服务器错误
       return c.json({
         success: false,
-        code: "RESULT_QUERY_FAILED",
+        code: result.code || "RESULT_QUERY_FAILED",
         message: result.message || "获取计算结果失败"
       }, Status.BadRequest);
     }
   } catch (error) {
+    console.error("Get task result error:", error);
     return c.json({
       success: false,
       code: "SERVER_ERROR",
@@ -180,10 +171,14 @@ router.get("/tasks/:taskId/result", async (c) => {
   }
 });
 
-// 取消任务
-router.delete("/tasks/:taskId", async (c) => {
+/**
+ * 取消隐私计算任务
+ * DELETE /api/admin/privacy/tasks/:taskId
+ */
+router.delete("/privacy/tasks/:taskId", async (c) => {
   try {
     const taskId = c.req.param('taskId');
+    const token = c.get('token');
     
     if (!taskId) {
       return c.json({
@@ -197,8 +192,8 @@ router.delete("/tasks/:taskId", async (c) => {
     const body = await c.req.json().catch(() => ({}));
     const reason = body.reason || "管理员取消";
     
-    // 调用服务取消任务
-    const result = await PrivacyService.cancelTask(taskId, reason);
+    // 调用区块链服务取消任务
+    const result = await BlockchainService.cancelPrivacyTask(taskId, reason, token);
     
     if (result.success) {
       return c.json({
@@ -208,11 +203,12 @@ router.delete("/tasks/:taskId", async (c) => {
     } else {
       return c.json({
         success: false,
-        code: "CANCEL_FAILED",
+        code: result.code || "CANCEL_FAILED",
         message: result.message || "取消任务失败"
       }, Status.InternalServerError);
     }
   } catch (error) {
+    console.error("Cancel task error:", error);
     return c.json({
       success: false,
       code: "SERVER_ERROR",
@@ -221,44 +217,100 @@ router.delete("/tasks/:taskId", async (c) => {
   }
 });
 
-// 获取任务列表 (示例实现)
-router.get("/tasks", async (c) => {
+/**
+ * 部署智能合约
+ * POST /api/admin/contracts/deploy
+ */
+router.post("/contracts/deploy", async (c) => {
   try {
-    const query = c.req.query();
-    const page = parseInt(query.page || '1');
-    const limit = parseInt(query.limit || '10');
+    const body = await c.req.json();
+    const token = c.get('token');
     
-    // 示例数据，实际应该从数据库或区块链获取
-    const mockTasks = [
-      {
-        taskId: "task-1",
-        computeType: PrivacyComputeType.TEE,
-        status: "COMPLETED",
-        createTime: new Date(Date.now() - 86400000).toISOString(),
-        completedTime: new Date().toISOString()
-      },
-      {
-        taskId: "task-2", 
-        computeType: PrivacyComputeType.MPC,
-        status: "PROCESSING",
-        createTime: new Date().toISOString(),
-        progress: 45
-      }
-    ];
+    // 验证必要字段
+    if (!body.contractCode || !body.contractName) {
+      return c.json({
+        success: false,
+        code: "MISSING_FIELDS",
+        message: "合约代码和合约名称是必填字段"
+      }, Status.BadRequest);
+    }
     
-    return c.json({
-      success: true,
-      data: {
-        tasks: mockTasks,
-        pagination: {
-          page,
-          limit,
-          total: mockTasks.length,
-          totalPages: Math.ceil(mockTasks.length / limit)
-        }
-      }
-    });
+    const deployParams = {
+      contractName: body.contractName,
+      contractCode: body.contractCode,
+      constructor: body.constructor || {},
+      gas: body.gas || 0
+    };
+    
+    // 调用区块链服务部署合约
+    const result = await BlockchainService.deployContract(deployParams, token);
+    
+    if (result.success) {
+      return c.json({
+        success: true,
+        data: result.data,
+        message: "智能合约部署成功"
+      }, Status.Created);
+    } else {
+      return c.json({
+        success: false,
+        code: result.code || "DEPLOY_FAILED",
+        message: result.message || "智能合约部署失败"
+      }, Status.InternalServerError);
+    }
   } catch (error) {
+    console.error("Deploy contract error:", error);
+    return c.json({
+      success: false,
+      code: "SERVER_ERROR",
+      message: "服务器处理请求时发生错误"
+    }, Status.InternalServerError);
+  }
+});
+
+/**
+ * 调用智能合约
+ * POST /api/admin/contracts/call
+ */
+router.post("/contracts/call", async (c) => {
+  try {
+    const body = await c.req.json();
+    const token = c.get('token');
+    
+    // 验证必要字段
+    if (!body.contractName || !body.methodSignature) {
+      return c.json({
+        success: false,
+        code: "MISSING_FIELDS",
+        message: "合约名称和方法签名是必填字段"
+      }, Status.BadRequest);
+    }
+    
+    const callParams = {
+      contractName: body.contractName,
+      methodSignature: body.methodSignature,
+      inputParamListStr: body.inputParams ? JSON.stringify(body.inputParams) : '[]',
+      outputTypes: body.outputTypes || ['string'],
+      isLocalTransaction: body.isLocalTransaction !== false
+    };
+    
+    // 调用区块链服务执行合约方法
+    const result = await BlockchainService.callContract(callParams, token);
+    
+    if (result.success) {
+      return c.json({
+        success: true,
+        data: result.data
+      });
+    } else {
+      return c.json({
+        success: false,
+        code: result.code || "CALL_FAILED",
+        message: result.message || "智能合约调用失败"
+      }, Status.InternalServerError);
+    }
+  } catch (error) {
+    console.error("Call contract error:", error);
     return c.json({
       success: false,
       code: "SERVER_ERROR",

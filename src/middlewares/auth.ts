@@ -1,42 +1,53 @@
-import { BlockchainAuth } from "../core/blockchain/auth/index.ts";
-import { UserRole } from "../core/blockchain/auth/types.ts";
 import { Context, MiddlewareHandler } from "../deps.ts";
-
-// Re-export the UserRole enum for backwards compatibility
-export { UserRole };
+import { BlockchainService } from "../services/blockchain.ts";
 
 /**
- * Authentication middleware for Hono
- * Verifies the authentication token and adds it to the context
+ * 认证中间件
+ * 验证请求中的认证token并将其附加到上下文
  */
 export const authMiddleware: MiddlewareHandler = async (c, next) => {
   try {
-    // Get an instance of the BlockchainAuth class
-    const auth = new BlockchainAuth();
+    // 从请求头获取token
+    const authHeader = c.req.header('Authorization');
+    let token: string | null = null;
     
-    // Get authentication token
-    const token = await auth.getToken();
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
+    } else {
+      // 如果没有提供token，尝试获取一个新的token
+      token = await BlockchainService.getAuthToken();
+    }
     
     if (!token) {
       return c.json({
         success: false,
         code: "UNAUTHORIZED",
-        message: "认证失败，请检查访问凭证"
+        message: "认证失败，无法获取访问令牌"
       }, 401);
     }
     
-    // Add token and user info to context for use in other middlewares or routes
-    c.set('token', token);
-    c.set('user', { role: 'admin', nodeId: 'node1' }); // 示例用户信息，实际应该从token解析
+    // 验证token有效性
+    const isValid = await BlockchainService.validateToken(token);
+    if (!isValid) {
+      return c.json({
+        success: false,
+        code: "INVALID_TOKEN",
+        message: "认证令牌无效或已过期"
+      }, 401);
+    }
     
-    // Continue to next middleware
+    // 将token添加到上下文中供后续使用
+    c.set('token', token);
+    c.set('authenticated', true);
+    
+    // 继续处理请求
     await next();
   } catch (error) {
-    console.error("Authentication error:", error);
+    console.error("Authentication middleware error:", error);
     return c.json({
       success: false,
       code: "AUTH_ERROR",
-      message: "认证过程中出现错误"
+      message: "认证过程中发生错误"
     }, 500);
   }
 }; 
