@@ -9,12 +9,15 @@ export * from './auth/types.ts';
 
 // 导出合约模块
 export * from './contract/index.ts';
+export * from './contract/types.ts';
 
 // 导出数据模块
 export * from './data/index.ts';
+export * from './data/types.ts';
 
 // 导出隐私计算模块
 export * from './privacy/index.ts';
+export * from './privacy/types.ts';
 
 // 导出通用类型
 export * from './types.ts';

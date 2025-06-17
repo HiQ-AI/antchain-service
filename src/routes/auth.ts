@@ -1,53 +1,41 @@
 import { Hono, Status } from "../deps.ts";
-import { AuthService } from "../services/auth.ts";
+import { BlockchainService } from "../services/blockchain.ts";
 
 const router = new Hono();
 
-// 登录接口
+/**
+ * 获取区块链认证token
+ * POST /api/auth/token
+ */
 router.post("/token", async (c) => {
   try {
-    // 获取请求体
-    const body = await c.req.json();
+    const body = await c.req.json().catch(() => ({}));
     
-    // 验证必要字段
-    if (!body.username || !body.password) {
-      return c.json({
-        success: false,
-        code: "MISSING_CREDENTIALS",
-        message: "用户名和密码是必填字段"
-      }, Status.BadRequest);
-    }
+    // 是否强制刷新token
+    const refresh = body.refresh || false;
     
-    // 验证用户凭据
-    const authResult = await AuthService.authenticate(body.username, body.password);
+    // 获取区块链认证token
+    const token = await BlockchainService.getAuthToken(refresh);
     
-    if (authResult.success) {
-      // 生成令牌 - 默认1小时过期
-      const expiresIn = body.expiresIn || 3600;
-      const token = AuthService.generateToken(
-        authResult.role!,
-        authResult.nodeId!,
-        expiresIn
-      );
-      
+    if (token) {
       return c.json({
         success: true,
         data: {
           token,
-          expiresIn,
           tokenType: "Bearer",
-          role: authResult.role,
-          nodeId: authResult.nodeId
+          expiresIn: 7200, // 2小时，根据实际情况调整
+          message: "区块链认证成功"
         }
       });
     } else {
       return c.json({
         success: false,
-        code: "INVALID_CREDENTIALS",
-        message: authResult.message || "授权失败"
+        code: "AUTH_FAILED",
+        message: "无法获取区块链认证令牌，请检查配置和密钥文件"
       }, Status.Unauthorized);
     }
   } catch (error) {
+    console.error("Token request error:", error);
     return c.json({
       success: false,
       code: "AUTH_ERROR",
@@ -56,25 +44,90 @@ router.post("/token", async (c) => {
   }
 });
 
-// 令牌验证接口（用于客户端主动检查令牌有效性）
-router.get("/verify", (c) => {
-  // 这个接口利用了全局auth中间件进行验证
-  // 如果代码能执行到这里，说明令牌有效
-  
-  // 从Hono上下文获取用户信息
-  const user = c.get('user');
-  const { role, nodeId } = user || {};
-  
-  return c.json({
-    success: true,
-    data: {
-      role,
-      nodeId,
-      permissions: role === "admin" 
-        ? ["read", "write", "admin", "create_task", "view_result"] 
-        : (role === "node" ? ["read", "write", "push_data"] : ["read"])
+/**
+ * 验证token有效性
+ * GET /api/auth/verify
+ */
+router.get("/verify", async (c) => {
+  try {
+    // 从请求头获取token
+    const authHeader = c.req.header('Authorization');
+    let token: string | null = null;
+    
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7);
     }
-  });
+    
+    if (!token) {
+      return c.json({
+        success: false,
+        code: "MISSING_TOKEN",
+        message: "请提供认证令牌"
+      }, Status.BadRequest);
+    }
+    
+    // 验证token
+    const isValid = await BlockchainService.validateToken(token);
+    
+    if (isValid) {
+      return c.json({
+        success: true,
+        data: {
+          valid: true,
+          message: "令牌有效"
+        }
+      });
+    } else {
+      return c.json({
+        success: false,
+        code: "INVALID_TOKEN",
+        message: "令牌无效或已过期"
+      }, Status.Unauthorized);
+    }
+  } catch (error) {
+    console.error("Token verification error:", error);
+    return c.json({
+      success: false,
+      code: "VERIFY_ERROR",
+      message: "令牌验证失败"
+    }, Status.InternalServerError);
+  }
+});
+
+/**
+ * 刷新token
+ * POST /api/auth/refresh
+ */
+router.post("/refresh", async (c) => {
+  try {
+    // 强制获取新token
+    const token = await BlockchainService.getAuthToken(true);
+    
+    if (token) {
+      return c.json({
+        success: true,
+        data: {
+          token,
+          tokenType: "Bearer",
+          expiresIn: 7200,
+          message: "令牌刷新成功"
+        }
+      });
+    } else {
+      return c.json({
+        success: false,
+        code: "REFRESH_FAILED",
+        message: "无法刷新认证令牌"
+      }, Status.Unauthorized);
+    }
+  } catch (error) {
+    console.error("Token refresh error:", error);
+    return c.json({
+      success: false,
+      code: "REFRESH_ERROR",
+      message: "令牌刷新失败"
+    }, Status.InternalServerError);
+  }
 });
 
 export { router as authRouter }; 

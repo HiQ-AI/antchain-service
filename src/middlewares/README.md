@@ -1,175 +1,159 @@
-# 区块链与智能合约中间件
+# HTTP 中间件模块
 
-这个中间件提供了一套统一的API，用于与区块链和智能合约进行交互。它处理了认证、数据操作、合约操作和隐私计算等功能。
+本模块提供纯粹的HTTP中间件功能，用于处理HTTP请求的预处理和后处理。
 
-## 功能特点
+## 架构说明
 
-- **模块化设计**: 将区块链功能分解为独立的模块，便于维护和扩展
-- **统一API**: 提供简洁一致的接口进行区块链操作
-- **类型安全**: 使用TypeScript类型确保API调用的正确性
-- **令牌缓存**: 自动缓存和管理认证令牌，减少不必要的认证请求
-- **错误处理**: 提供统一的错误处理机制
-- **可配置**: 支持自定义配置，适应不同的区块链环境
-- **隐私计算**: 支持多种隐私计算方式，包括TEE、MPC、FHE等
+### 重构后的分层架构
 
-## 模块结构
+- **Core层**: 纯粹的区块链业务逻辑，不涉及HTTP (`src/core/`)
+- **Services层**: 基于Core的业务服务层，组合多个core功能 (`src/services/`)
+- **Middlewares层**: 纯HTTP中间件，处理认证、日志、错误处理等 (`src/middlewares/`)
+- **Routes层**: HTTP路由处理，调用services (`src/routes/`)
 
-- **auth**: 处理认证和令牌管理
-- **data**: 处理区块链数据存储和查询
-- **contract**: 处理智能合约调用
-- **privacy**: 处理隐私计算任务
-- **base**: 提供通用工具和配置
+## 可用中间件
 
-## 使用方法
+### 认证中间件 (authMiddleware)
 
-### 导入中间件
+验证请求中的认证token并将其附加到上下文中。
 
 ```typescript
-// 导入整个中间件
-import { blockchain } from './middleware/index.ts';
+import { authMiddleware } from './middlewares/auth.ts';
 
-// 或者导入特定模块
-import { authMiddleware } from './middleware/auth.ts';
-import { dataMiddleware } from './middleware/data.ts';
-import { contractMiddleware } from './middleware/contract.ts';
-import { privacyMiddleware } from './middleware/privacy.ts';
+// 在路由中使用
+app.use('/api/admin/*', authMiddleware);
 ```
 
-### 认证操作
+**功能**:
+- 从`Authorization`头获取Bearer token
+- 如果未提供token，自动获取区块链认证token
+- 验证token有效性
+- 将token和认证状态添加到请求上下文
+
+**上下文变量**:
+- `token`: 有效的认证token
+- `authenticated`: 认证状态 (boolean)
+
+### 错误处理中间件 (errorMiddleware)
+
+统一的错误处理和响应格式化。
 
 ```typescript
-// 获取认证令牌
-const token = await blockchain.auth.getToken();
+import { errorMiddleware } from './middlewares/error.ts';
 
-// 可以指定密钥文件路径
-const token = await blockchain.auth.getToken('../path/to/private_key.key');
+// 全局使用
+app.use('*', errorMiddleware);
 ```
 
-### 数据操作
+### 日志中间件 (loggerMiddleware)
+
+请求日志记录。
 
 ```typescript
-// 存储数据到区块链 (自动获取令牌)
-const depositResult = await blockchain.data.deposit('Hello, Blockchain!');
+import { loggerMiddleware } from './middlewares/logger.ts';
 
-// 或者提供令牌
-const depositResult = await blockchain.data.deposit('Hello, Blockchain!', token);
-
-// 查询交易
-const txHash = depositResult.data;
-const queryResult = await blockchain.data.queryTransaction(txHash);
+// 全局使用
+app.use('*', loggerMiddleware);
 ```
 
-### 合约操作
+## 与业务服务的集成
+
+中间件通过 `BlockchainService` 与区块链核心功能集成：
 
 ```typescript
-// 调用合约方法获取名称
-const contractName = 'your_contract_name';
-const getNameResult = await blockchain.contract.getName(contractName);
+import { BlockchainService } from "../services/blockchain.ts";
 
-// 设置新名称
-const setNameResult = await blockchain.contract.setName(contractName, 'NewName');
+// 在中间件中使用服务
+const token = await BlockchainService.getAuthToken();
+const isValid = await BlockchainService.validateToken(token);
+```
 
-// 调用自定义合约方法
-const result = await blockchain.contract.callMethod({
-  contractName: 'your_contract_name',
-  methodSignature: 'yourMethod(string,int)',
-  inputParams: ['param1', 123],
-  outputTypes: ['string', 'int'],
-  isLocalTransaction: true
+## 使用示例
+
+### 基本中间件配置
+
+```typescript
+import { Hono } from "./deps.ts";
+import { 
+  authMiddleware, 
+  errorMiddleware, 
+  loggerMiddleware 
+} from "./middlewares/index.ts";
+
+const app = new Hono();
+
+// 全局中间件
+app.use('*', errorMiddleware);
+app.use('*', loggerMiddleware);
+
+// 认证保护的路由
+app.use('/api/admin/*', authMiddleware);
+app.use('/api/node/*', authMiddleware);
+```
+
+### 在路由中访问中间件数据
+
+```typescript
+// 在需要认证的路由中
+router.post("/some-endpoint", async (c) => {
+  const token = c.get('token');           // 从认证中间件获取
+  const authenticated = c.get('authenticated');
+  
+  // 使用token调用业务服务
+  const result = await BlockchainService.someOperation(data, token);
+  
+  return c.json(result);
 });
 ```
 
-### 隐私计算操作
+## 与旧版本的区别
+
+### 重构前的问题
+- 中间件包含业务逻辑
+- 直接调用区块链API
+- 代码重复和职责混乱
+
+### 重构后的改进
+- **职责单一**: 中间件只处理HTTP层面的逻辑
+- **依赖清晰**: 通过服务层访问业务功能
+- **代码复用**: 业务逻辑集中在Core和Services层
+- **易于测试**: 各层独立，便于单元测试
+
+## 开发指南
+
+### 添加新中间件
+
+1. 创建新的中间件文件
+2. 实现 `MiddlewareHandler` 接口
+3. 在 `index.ts` 中导出
+4. 在文档中添加说明
 
 ```typescript
-import { PrivacyComputeType } from './middleware/index.ts';
+// 示例：新的缓存中间件
+import { MiddlewareHandler } from "../deps.ts";
 
-// 创建隐私计算任务
-const taskResult = await blockchain.privacy.createPrivacyTask({
-  computeType: PrivacyComputeType.TEE, // 使用可信执行环境
-  inputData: {
-    function: "function process(data) { /* 处理逻辑 */ }",
-    schema: { /* 数据模式 */ }
-  },
-  encryptionLevel: 2,
-  timeoutSeconds: 600
-});
-
-// 推送数据到任务
-const taskId = taskResult.data.taskId;
-await blockchain.privacy.pushData(taskId, yourData);
-
-// 查询任务状态
-const statusResult = await blockchain.privacy.queryTaskStatus(taskId);
-
-// 获取计算结果
-const computeResult = await blockchain.privacy.getPrivacyResult(taskId);
-
-// 取消任务
-await blockchain.privacy.cancelTask(taskId, '任务已不需要');
-```
-
-### 自定义配置
-
-```typescript
-import { BlockchainAuth, BlockchainData, BlockchainContract, BlockchainPrivacy } from './middleware/index.ts';
-
-// 自定义配置
-const customConfig = {
-  restUrl: 'https://your-api-endpoint.com',
-  accessId: 'your_access_id',
-  tenantId: 'your_tenant_id',
-  account: 'your_account',
-  bizId: 'your_biz_id',
-  kmsKeyId: 'your_kms_key_id'
+export const cacheMiddleware: MiddlewareHandler = async (c, next) => {
+  // 中间件逻辑
+  await next();
 };
-
-// 创建自定义实例
-const auth = new BlockchainAuth(customConfig);
-const data = new BlockchainData(customConfig);
-const contract = new BlockchainContract(customConfig);
-const privacy = new BlockchainPrivacy(customConfig);
-
-// 使用自定义实例
-const token = await auth.getToken();
-const result = await data.deposit('Custom configuration');
 ```
 
-## 完整示例
+### 最佳实践
 
-- 查看 `src/example.ts` 获取区块链和智能合约操作的完整示例
-- 查看 `src/privacy-example.ts` 获取隐私计算的完整示例
+1. **保持纯粹**: 中间件应该只处理HTTP层面的逻辑
+2. **避免业务逻辑**: 业务逻辑应该在Services层处理
+3. **错误处理**: 适当的错误处理和日志记录
+4. **性能考虑**: 避免在中间件中进行耗时操作
+5. **类型安全**: 使用TypeScript类型确保类型安全
 
-## 隐私计算说明
+## 核心功能访问
 
-隐私计算模块支持以下计算类型：
+如需访问区块链核心功能，请通过Services层：
 
-- **TEE (可信执行环境)**: 在隔离的安全环境中执行计算
-- **MPC (多方安全计算)**: 允许多方在不泄露原始数据的情况下共同计算
-- **FHE (全同态加密)**: 在加密状态下直接进行计算，无需解密
-- **FEDERATED (联邦学习)**: 分布式机器学习方法，数据不离开本地
-- **SMPC (安全多方计算)**: 多方在保护隐私的前提下共同计算
+```typescript
+// ❌ 不要直接在中间件中使用
+import { blockchain } from '../core/blockchain/index.ts';
 
-使用隐私计算的一般流程：
-
-1. 创建隐私计算任务，指定计算方法和参数
-2. 推送数据到计算任务
-3. 定期查询任务状态
-4. 任务完成后获取计算结果
-5. 如需取消任务，可以调用取消API
-
-## 开发说明
-
-### 扩展功能
-
-如需添加新的区块链功能，您可以:
-
-1. 在对应模块中添加新方法
-2. 或创建新的中间件模块并导出到index.ts
-
-### 贡献指南
-
-1. 确保代码遵循TypeScript规范
-2. 为新功能添加适当的文档
-3. 添加错误处理和日志记录
-4. 提交前测试您的更改 
+// ✅ 推荐通过服务层使用
+import { BlockchainService } from '../services/blockchain.ts';
+``` 
