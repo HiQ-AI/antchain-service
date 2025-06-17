@@ -1,0 +1,128 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Blockchain & Privacy Computing API Guide
+
+## Core Blockchain Modules
+
+### Authentication ([src/core/blockchain/auth/](mdc:src/core/blockchain/auth))
+**Purpose**: Manages blockchain authentication tokens
+- `getToken()`: Retrieve authentication token (with automatic caching)
+- Token caching prevents unnecessary re-authentication
+- Supports custom private key paths
+
+### Data Management ([src/core/blockchain/data/](mdc:src/core/blockchain/data))
+**Purpose**: Handles blockchain data storage and retrieval
+- `deposit(data)`: Store data on blockchain
+- `queryTransaction(txHash)`: Query transaction details
+- Auto-manages authentication tokens
+
+### Smart Contracts ([src/core/blockchain/contract/](mdc:src/core/blockchain/contract))
+**Purpose**: Interacts with deployed smart contracts
+- `getName(contractName)`: Get contract name
+- `setName(contractName, newName)`: Update contract name
+- `callMethod(params)`: Generic contract method calls
+- Supports both local and on-chain transactions
+
+### Privacy Computing ([src/core/blockchain/privacy/](mdc:src/core/blockchain/privacy))
+**Purpose**: Manages privacy-preserving computations
+
+#### Supported Privacy Types
+- **TEE** (Trusted Execution Environment): Secure isolated execution
+- **MPC** (Multi-Party Computation): Collaborative computation without data sharing
+- **FHE** (Fully Homomorphic Encryption): Computing on encrypted data
+- **FEDERATED**: Federated learning
+- **SMPC** (Secure Multi-Party Computation): Enhanced MPC variant
+
+#### Privacy Computing Workflow
+1. `createPrivacyTask(params)`: Create computation task
+2. `pushData(taskId, data)`: Submit data for processing
+3. `queryTaskStatus(taskId)`: Monitor task progress
+4. `getPrivacyResult(taskId)`: Retrieve computation results
+5. `cancelTask(taskId, reason)`: Cancel running task
+
+## API Routes Structure
+
+### Authentication Routes ([src/routes/auth.ts](mdc:src/routes/auth.ts))
+- **No authentication required**
+- Used for initial token acquisition
+- Login and session management
+
+### Admin Routes ([src/routes/admin.ts](mdc:src/routes/admin.ts))
+- **Requires authentication middleware**
+- Master node operations
+- System administration functions
+
+### Node Routes ([src/routes/node.ts](mdc:src/routes/node.ts))
+- **Requires authentication middleware**
+- Data node operations
+- Node-specific blockchain interactions
+
+## Configuration Management
+
+### Blockchain Config ([src/config/blockchain.ts](mdc:src/config/blockchain.ts))
+```typescript
+interface BlockchainConfig {
+  restUrl: string;      // API endpoint
+  accessId: string;     // Access identifier
+  tenantId: string;     // Tenant identifier
+  account: string;      // Account name
+  bizId: string;        // Business ID
+  kmsKeyId: string;     // KMS key identifier
+}
+```
+
+### TCS Config ([src/config/tcs.ts](mdc:src/config/tcs.ts))
+- Trusted Computing Service configuration
+- Node-specific settings
+- Privacy computing parameters
+
+## Usage Examples
+
+### Quick Start - Data Operations
+See [src/examples/blockchain-data-example.ts](mdc:src/examples/blockchain-data-example.ts) for:
+- Token acquisition
+- Data storage on blockchain
+- Transaction querying
+
+### Smart Contract Operations
+See [src/examples/contract-example.ts](mdc:src/examples/contract-example.ts) for:
+- Contract method calls
+- Parameter handling
+- Result processing
+
+### Privacy Computing
+See [src/examples/privacy-example.ts](mdc:src/examples/privacy-example.ts) for:
+- Task creation with different privacy types
+- Data submission workflows
+- Result retrieval patterns
+
+## Type Definitions
+
+### Core Types ([src/types/index.ts](mdc:src/types/index.ts))
+- `PrivateCalculateType`: Privacy computation type definitions
+- `DataRequestTask`: Task structure for data requests
+- `PushData`: Data submission format
+
+### Module-Specific Types
+Each blockchain module has its own `types.ts` file:
+- [src/core/blockchain/auth/types.ts](mdc:src/core/blockchain/auth/types.ts)
+- [src/core/blockchain/contract/types.ts](mdc:src/core/blockchain/contract/types.ts)
+- [src/core/blockchain/data/types.ts](mdc:src/core/blockchain/data/types.ts)
+- [src/core/blockchain/privacy/types.ts](mdc:src/core/blockchain/privacy/types.ts)
+
+## Error Handling
+
+All blockchain operations follow standardized error response format:
+```typescript
+{
+  success: boolean;
+  code?: string;
+  message: string;
+  data?: any;
+}
+```
+
+Errors are handled by [src/middlewares/error.ts](mdc:src/middlewares/error.ts) middleware.

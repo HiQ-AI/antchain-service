@@ -1,0 +1,59 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Antchain Blockchain Project Overview
+
+This is a TypeScript/Deno-based blockchain privacy computing API project that provides:
+
+## Core Functionality
+- **Blockchain Authentication**: Token-based auth system with automatic caching
+- **Smart Contract Operations**: Contract deployment, method calls, and management
+- **Blockchain Data Management**: Data storage and querying on blockchain
+- **Privacy Computing**: TEE, MPC, FHE, and federated learning capabilities
+- **RESTful API**: Hono framework-based routing with middleware support
+
+## Technology Stack
+
+### Core Technologies
+- **Runtime**: Deno - Modern JavaScript/TypeScript runtime
+- **Language**: TypeScript with strict type checking
+- **Web Framework**: Hono - Fast, lightweight web framework for Deno
+- **Authentication**: JWT tokens with automatic caching
+- **Blockchain SDKs**: 
+  - `@antchain/myassembly` - Core blockchain assembly functions
+  - `@antchain/mychain` - Blockchain interaction library
+
+## Architecture
+
+### Entry Points
+- **Main Server**: [src/server.ts](mdc:src/server.ts) - The primary application server
+- **Configuration**: [src/config/index.ts](mdc:src/config/index.ts) - Centralized config management
+- **Dependencies**: [src/deps.ts](mdc:src/deps.ts) - All external dependencies
+
+### Core Modules
+- **Blockchain Core**: [src/core/blockchain/index.ts](mdc:src/core/blockchain/index.ts) - Main blockchain functionality
+  - Auth: [src/core/blockchain/auth/index.ts](mdc:src/core/blockchain/auth/index.ts)
+  - Contracts: [src/core/blockchain/contract/index.ts](mdc:src/core/blockchain/contract/index.ts)
+  - Data: [src/core/blockchain/data/index.ts](mdc:src/core/blockchain/data/index.ts)
+  - Privacy: [src/core/blockchain/privacy/index.ts](mdc:src/core/blockchain/privacy/index.ts)
+
+### API Layer
+- **Routes**: [src/routes/](mdc:src/routes) - HTTP route handlers
+  - Admin routes: [src/routes/admin.ts](mdc:src/routes/admin.ts)
+  - Auth routes: [src/routes/auth.ts](mdc:src/routes/auth.ts)
+  - Node routes: [src/routes/node.ts](mdc:src/routes/node.ts)
+- **Middlewares**: [src/middlewares/](mdc:src/middlewares) - HTTP middleware functions
+- **Services**: [src/services/](mdc:src/services) - Business logic layer
+
+### Examples & Documentation
+- **Usage Examples**: [src/examples/](mdc:src/examples) - Comprehensive usage examples
+- **Middleware Guide**: [src/middlewares/README.md](mdc:src/middlewares/README.md) - Detailed middleware documentation
+
+## Key Patterns
+- **Deno Runtime**: Uses Deno with TypeScript for modern JavaScript development
+- **Modular Design**: Each blockchain function is in its own module
+- **Middleware Architecture**: Request/response processing through middleware chain
+- **Configuration-Driven**: Environment-based configuration management
+- **Type Safety**: Full TypeScript types throughout the codebase

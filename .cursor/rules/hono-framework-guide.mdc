@@ -1,0 +1,270 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Hono Framework Guide
+
+## Overview
+
+This project has been migrated from Oak to Hono - a fast, lightweight web framework for Deno. Hono provides excellent performance, type safety, and modern API design.
+
+## Key Benefits of Hono
+
+### Performance
+- **Ultra-fast routing**: Optimized route matching and processing
+- **Minimal overhead**: Small bundle size and efficient memory usage
+- **Fast JSON responses**: Built-in JSON helpers with streaming support
+
+### Developer Experience
+- **Strong TypeScript support**: Excellent type inference and safety
+- **Clean API**: Intuitive and consistent method signatures
+- **Middleware pipeline**: Flexible and powerful middleware system
+
+## Core Concepts
+
+### Application Setup
+```typescript
+import { Hono } from 'src/deps.ts';
+
+const app = new Hono();
+
+// Start server
+Deno.serve({ port: 8000, handler: app.fetch });
+```
+
+### Route Definition
+```typescript
+// GET route
+app.get('/api/users', (c) => {
+  return c.json({ users: [] });
+});
+
+// POST route with body parsing
+app.post('/api/users', async (c) => {
+  const body = await c.req.json();
+  return c.json({ success: true, data: body });
+});
+
+// Route parameters
+app.get('/api/users/:id', (c) => {
+  const id = c.req.param('id');
+  return c.json({ userId: id });
+});
+
+// Query parameters
+app.get('/api/search', (c) => {
+  const query = c.req.query('q');
+  return c.json({ query });
+});
+```
+
+### Middleware Usage
+
+#### Global Middleware
+```typescript
+// Apply to all routes
+app.use('*', loggerMiddleware);
+app.use('*', errorMiddleware);
+```
+
+#### Path-specific Middleware
+```typescript
+// Apply only to specific paths
+app.use('/api/admin/*', authMiddleware);
+app.use('/api/protected/*', authMiddleware);
+```
+
+#### Route-specific Middleware
+```typescript
+app.get('/api/admin/users', authMiddleware, async (c) => {
+  // Handler code
+});
+```
+
+### Context Object
+
+The context object `c` provides access to request and response:
+
+```typescript
+app.get('/api/example', async (c) => {
+  // Request data
+  const method = c.req.method;
+  const url = c.req.url;
+  const headers = c.req.header();
+  const body = await c.req.json();
+  const param = c.req.param('id');
+  const query = c.req.query('search');
+  
+  // Context variables
+  c.set('user', userData);
+  const user = c.get('user');
+  
+  // Response helpers
+  return c.json({ data: 'json response' });
+  return c.text('plain text');
+  return c.html('<h1>HTML</h1>');
+  return c.redirect('/other-page');
+  return c.notFound();
+});
+```
+
+### Error Handling
+
+#### Middleware Error Handling
+```typescript
+app.use('*', async (c, next) => {
+  try {
+    await next();
+  } catch (error) {
+    return c.json({
+      success: false,
+      message: error.message
+    }, 500);
+  }
+});
+```
+
+#### HTTP Exception
+```typescript
+import { HTTPException } from 'src/deps.ts';
+
+app.get('/api/protected', (c) => {
+  if (!authorized) {
+    throw new HTTPException(401, { message: 'Unauthorized' });
+  }
+  return c.json({ data: 'protected data' });
+});
+```
+
+## Project-Specific Patterns
+
+### Router Organization
+Each route module exports a Hono instance:
+
+```typescript
+// src/routes/auth.ts
+import { Hono } from '../deps.ts';
+
+const router = new Hono();
+
+router.post('/token', async (c) => {
+  // Implementation
+});
+
+export { router as authRouter };
+```
+
+### Route Mounting
+Mount routers in the main application:
+
+```typescript
+// src/server.ts
+import { authRouter } from './routes/auth.ts';
+import { adminRouter } from './routes/admin.ts';
+
+app.route('/api/auth', authRouter);
+app.route('/api/admin', adminRouter);
+```
+
+### Middleware Pattern
+```typescript
+// src/middlewares/auth.ts
+import { MiddlewareHandler } from '../deps.ts';
+
+export const authMiddleware: MiddlewareHandler = async (c, next) => {
+  const token = c.req.header('Authorization');
+  
+  if (!token) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
+  
+  // Validate token and set user data
+  c.set('user', userData);
+  
+  await next();
+};
+```
+
+### Error Response Format
+Standardized error responses:
+
+```typescript
+// Success response
+return c.json({
+  success: true,
+  data: result
+});
+
+// Error response
+return c.json({
+  success: false,
+  code: 'ERROR_CODE',
+  message: 'Error description'
+}, statusCode);
+```
+
+## Migration Notes
+
+### Key Changes from Oak
+- `Application` → `Hono`
+- `ctx` → `c` (context parameter)
+- `ctx.response.body` → `c.json()`
+- `ctx.request.body()` → `c.req.json()`
+- `ctx.params` → `c.req.param()`
+- `ctx.state` → `c.get()` / `c.set()`
+
+### Performance Improvements
+- Faster route matching
+- Reduced memory usage
+- Better TypeScript performance
+- Smaller bundle size
+
+### Updated Files
+- [src/deps.ts](mdc:src/deps.ts) - Framework dependencies
+- [src/server.ts](mdc:src/server.ts) - Main application
+- [src/routes/](mdc:src/routes) - All route handlers
+- [src/middlewares/](mdc:src/middlewares) - All middleware functions
+
+## Best Practices
+
+### Type Safety
+```typescript
+// Define custom context types
+type Variables = {
+  user: { id: string; role: string };
+  token: string;
+};
+
+const app = new Hono<{ Variables: Variables }>();
+
+// Now c.get('user') is properly typed
+app.get('/profile', (c) => {
+  const user = c.get('user'); // TypeScript knows this is the user type
+  return c.json({ user });
+});
+```
+
+### Async Operations
+```typescript
+app.post('/api/data', async (c) => {
+  try {
+    const body = await c.req.json();
+    const result = await processData(body);
+    return c.json({ success: true, data: result });
+  } catch (error) {
+    return c.json({ success: false, error: error.message }, 500);
+  }
+});
+```
+
+### Route Groups
+```typescript
+const api = new Hono();
+
+api.get('/users', getUsersHandler);
+api.post('/users', createUserHandler);
+api.get('/users/:id', getUserHandler);
+
+app.route('/api/v1', api);
+```

@@ -1,0 +1,139 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Troubleshooting Guide
+
+## Common Issues & Solutions
+
+### Authentication Problems
+
+**Issue**: Token authentication failures
+**Check**:
+- Verify private key files in [certs/](mdc:certs) directory
+- Ensure `access.key` and `restAkPrivate_key.key` are properly configured
+- Review authentication configuration in [src/config/blockchain.ts](mdc:src/config/blockchain.ts)
+- Check token caching in [src/core/blockchain/auth/](mdc:src/core/blockchain/auth)
+
+**Solution**: 
+- Copy example keys from `access.key.example` and `restAkPrivate_key.key.example`
+- Verify environment variables in [src/config/index.ts](mdc:src/config/index.ts)
+
+### Configuration Issues
+
+**Issue**: Missing or incorrect configuration
+**Check**:
+- Environment variables: `PORT`, `HOST`, `ENV`
+- Blockchain configuration: `restUrl`, `accessId`, `tenantId`, `account`, `bizId`, `kmsKeyId`
+- TCS node configuration in [src/config/tcs.ts](mdc:src/config/tcs.ts)
+
+**File Locations**:
+- Main config: [src/config/index.ts](mdc:src/config/index.ts)
+- Blockchain config: [src/config/blockchain.ts](mdc:src/config/blockchain.ts)
+- TCS config: [src/config/tcs.ts](mdc:src/config/tcs.ts)
+
+### Privacy Computing Issues
+
+**Issue**: Privacy tasks failing or hanging
+**Debug Steps**:
+1. Check task status using `queryTaskStatus(taskId)`
+2. Verify privacy compute type is supported (TEE, MPC, FHE, FEDERATED, SMPC)
+3. Review task parameters in [src/core/blockchain/privacy/](mdc:src/core/blockchain/privacy)
+4. Check timeout settings and resource allocation
+
+**Common Causes**:
+- Invalid compute type specification
+- Insufficient timeout values
+- Incorrect data format for privacy computation
+- Network connectivity to TCS nodes
+
+### Smart Contract Issues
+
+**Issue**: Contract method calls failing
+**Check**:
+- Contract name exists and is deployed
+- Method signature matches exactly
+- Input parameter types and count
+- Output type specifications
+- Transaction vs local call settings
+
+**Reference**: [src/examples/contract-example.ts](mdc:src/examples/contract-example.ts) for proper usage patterns
+
+### API Route Issues
+
+**Issue**: 404 or authentication errors on API calls
+**Check Route Registration**:
+- Routes defined in [src/routes/](mdc:src/routes)
+- Middleware order in [src/server.ts](mdc:src/server.ts)
+- Authentication middleware applied correctly
+
+**Middleware Chain**:
+1. [src/middlewares/error.ts](mdc:src/middlewares/error.ts) - Error handling
+2. [src/middlewares/logger.ts](mdc:src/middlewares/logger.ts) - Request logging
+3. [src/middlewares/auth.ts](mdc:src/middlewares/auth.ts) - Authentication (for protected routes)
+
+### Development Environment Issues
+
+**Issue**: Deno runtime errors or module resolution
+**Check**:
+- Deno version compatibility
+- Import map in [deno.json](mdc:deno.json)
+- Permission flags: `--allow-read`, `--allow-net`, `--allow-env`
+- Dependencies in [src/deps.ts](mdc:src/deps.ts)
+
+**Commands**:
+```bash
+# Check Deno version
+deno --version
+
+# Reload dependencies
+deno cache --reload src/deps.ts
+
+# Run with all permissions for debugging
+deno run -A your-script.ts
+```
+
+## Debugging Tools
+
+### Logging
+- Request/response logging via [src/middlewares/logger.ts](mdc:src/middlewares/logger.ts)
+- Enable debug logging by setting `ENV=development`
+
+### Testing
+- Use examples in [src/examples/](mdc:src/examples) to isolate issues
+- Run individual blockchain operations to identify problems
+- Check [main_test.ts](mdc:main_test.ts) for unit tests
+
+### Data Inspection
+- JSON data samples in [data/](mdc:data) directory
+- `dynamicParam.json` for parameter examples
+- `receiptResult.json` for result format examples
+
+## Performance Issues
+
+**Issue**: Slow API responses
+**Optimize**:
+- Token caching in authentication modules
+- Connection pooling for blockchain calls
+- Async/await patterns throughout codebase
+- Middleware optimization
+
+**Monitor**:
+- Request timing via logger middleware
+- Token cache hit rates
+- Blockchain network latency
+
+## Error Response Format
+
+All errors follow this standardized format:
+```typescript
+{
+  success: false,
+  code: "ERROR_CODE",
+  message: "Human-readable error message",
+  data?: any // Optional error details
+}
+```
+
+Error handling is centralized in [src/middlewares/error.ts](mdc:src/middlewares/error.ts).

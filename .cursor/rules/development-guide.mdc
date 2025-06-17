@@ -1,0 +1,82 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Development Guide
+
+## Getting Started
+
+### Running the Application
+```bash
+# Development mode with auto-reload
+deno task dev
+
+# Run tests
+deno task test
+
+# Start production server
+deno task start
+```
+
+### Project Structure
+
+#### Core Development Areas
+- **Adding New Routes**: Create in [src/routes/](mdc:src/routes) and register in [src/server.ts](mdc:src/server.ts)
+- **Adding Middleware**: Create in [src/middlewares/](mdc:src/middlewares) and export from [src/middlewares/index.ts](mdc:src/middlewares/index.ts)
+- **Adding Services**: Create in [src/services/](mdc:src/services) for business logic
+- **Configuration**: Modify [src/config/](mdc:src/config) files for environment settings
+
+#### Common Patterns
+
+**1. Creating New Blockchain Functionality**
+- Add to appropriate module in [src/core/blockchain/](mdc:src/core/blockchain)
+- Update the aggregated export in [src/core/blockchain/index.ts](mdc:src/core/blockchain/index.ts)
+- Add corresponding types in the module's `types.ts` file
+
+**2. Adding API Endpoints**
+- Create route handler in [src/routes/](mdc:src/routes)
+- Apply appropriate middleware (auth, validation, etc.)
+- Follow the existing error handling patterns
+
+**3. Configuration Management**
+- Environment variables are loaded in [src/config/index.ts](mdc:src/config/index.ts)
+- Module-specific configs are in [src/config/blockchain.ts](mdc:src/config/blockchain.ts) and [src/config/tcs.ts](mdc:src/config/tcs.ts)
+- Access config via `defaultConfig` import
+
+## Testing
+
+### Running Examples
+```bash
+# Blockchain data operations
+deno run -A src/examples/blockchain-data-example.ts
+
+# Smart contract operations
+deno run -A src/examples/contract-example.ts
+
+# Privacy computing
+deno run -A src/examples/privacy-example.ts
+```
+
+### Key Dependencies
+- **@antchain/myassembly**: Core blockchain assembly functions
+- **@antchain/mychain**: Blockchain interaction library
+- **Standard Library**: Deno standard library for utilities
+
+## Best Practices
+
+### Code Organization
+- Keep related functionality together in modules
+- Use barrel exports ([index.ts](mdc:src/index.ts) files) for clean imports
+- Follow the existing async/await patterns
+- Use TypeScript types for all public APIs
+
+### Error Handling
+- Use the centralized error middleware: [src/middlewares/error.ts](mdc:src/middlewares/error.ts)
+- Follow the standardized error response format
+- Log errors appropriately using the logger middleware
+
+### Security
+- Authentication is handled by [src/middlewares/auth.ts](mdc:src/middlewares/auth.ts)
+- Private keys and sensitive data should use environment variables
+- Token caching is implemented in the auth modules

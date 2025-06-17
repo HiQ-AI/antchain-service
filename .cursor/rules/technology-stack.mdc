@@ -1,0 +1,157 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Technology Stack Reference
+
+## Core Framework & Runtime
+
+### Deno Runtime Environment
+- **Purpose**: Modern JavaScript/TypeScript runtime with built-in security
+- **Benefits**: Native TypeScript support, built-in testing, secure by default
+- **Configuration**: [deno.json](mdc:deno.json) - Project configuration and import maps
+- **Permissions**: Uses `--allow-read`, `--allow-net`, `--allow-env` flags
+
+### Hono Web Framework
+- **Framework**: Hono - Fast, lightweight web framework for Deno
+- **Usage**: Imported from [src/deps.ts](mdc:src/deps.ts)
+- **Components**: 
+  - `Hono` - Main application instance
+  - `Context` - Request/response context object
+  - `Handler` - Route handler functions
+  - `MiddlewareHandler` - Middleware processing pipeline
+
+### TypeScript Configuration
+- **Strict Mode**: Enabled for type safety
+- **Module System**: ES modules with explicit file extensions
+- **Type Definitions**: Custom types in [src/types/index.ts](mdc:src/types/index.ts)
+
+## Web Framework Architecture
+
+### Hono Framework Features
+```typescript
+// Application setup
+import { Hono } from 'src/deps.ts';
+
+const app = new Hono();
+
+// Middleware chain
+app.use('*', errorMiddleware);     // Error handling
+app.use('*', loggerMiddleware);    // Request logging
+app.use('/api/admin/*', authMiddleware);  // Authentication
+
+// Route registration
+app.route("/api/auth", authRouter);
+app.route("/api/admin", adminRouter);
+```
+
+### Request/Response Pattern
+```typescript
+app.get('/api/endpoint', async (c) => {
+  // c.req - Incoming request data
+  // c.json() - JSON response helper
+  // c.get() / c.set() - Context variables
+  return c.json({ success: true, data: result });
+});
+```
+
+## Authentication & Security
+
+### JWT Implementation
+- **Library**: Deno JWT (`djwt`) for token creation and verification
+- **Location**: [src/core/blockchain/auth/](mdc:src/core/blockchain/auth)
+- **Features**: Token caching, automatic renewal, secure storage
+
+### Cryptography
+- **Standard Library**: Deno std/crypto for cryptographic operations
+- **Encoding**: Base64 and Hex encoding/decoding utilities
+- **Key Management**: Private key handling for blockchain authentication
+
+## Blockchain Integration
+
+### Antchain SDKs
+- **@antchain/myassembly**: Core blockchain assembly functions
+- **@antchain/mychain**: High-level blockchain interaction library
+- **Configuration**: [src/config/blockchain.ts](mdc:src/config/blockchain.ts)
+
+### Privacy Computing
+- **TEE Support**: Trusted Execution Environment integration
+- **MPC/FHE**: Multi-party computation and homomorphic encryption
+- **Federated Learning**: Distributed machine learning capabilities
+
+## Data & Utilities
+
+### Standard Library Features
+```typescript
+// File system and path operations
+import * as path from "std/path/mod.ts";
+
+// Cryptographic functions
+import { crypto } from "std/crypto/mod.ts";
+
+// Encoding utilities
+import { encodeBase64, decodeBase64 } from "std/encoding/base64.ts";
+```
+
+### UUID Generation
+- **Library**: npm:uuid package for unique identifier generation
+- **Usage**: Task IDs, session management, transaction tracking
+
+## Development Tools
+
+### Testing Framework
+- **Built-in**: Deno's native testing capabilities
+- **Command**: `deno test --allow-read --allow-net --allow-env`
+- **Location**: [main_test.ts](mdc:main_test.ts)
+
+### Code Formatting & Linting
+- **Formatter**: Deno's built-in formatter
+- **Linter**: Deno's built-in linter with TypeScript support
+- **Configuration**: Settings in [deno.json](mdc:deno.json)
+
+## File Organization
+
+### Module Structure
+- **Barrel Exports**: Index files for clean imports
+- **Type Safety**: Dedicated `types.ts` files for each module
+- **Configuration**: Centralized config management
+- **Examples**: Comprehensive usage examples in [src/examples/](mdc:src/examples)
+
+### Import Patterns
+```typescript
+// Internal modules use relative paths with extensions
+import { blockchain } from './core/blockchain/index.ts';
+
+// External dependencies via deps.ts
+import { Application, Router } from './deps.ts';
+
+// Configuration access
+import { defaultConfig } from './config/index.ts';
+```
+
+## Performance Considerations
+
+### Hono Framework Benefits
+- **Performance**: Ultra-fast routing and request processing
+- **Lightweight**: Minimal overhead and small bundle size
+- **Type Safety**: Strong TypeScript support and type inference
+- **Middleware Pipeline**: Efficient middleware chain execution
+- **Modern APIs**: Clean, intuitive API design
+
+### Caching Strategy
+- **Token Caching**: Automatic JWT token caching in auth modules
+- **Configuration Caching**: Singleton pattern for config access
+- **Response Caching**: Middleware-based caching where applicable
+
+## Deployment & Production
+
+### Environment Configuration
+- **Variables**: PORT, HOST, ENV for environment-specific settings
+- **Blockchain Config**: API endpoints, access credentials, tenant information
+- **Security**: Private key management and secure storage
+
+### Production Optimizations
+- **Bundle**: Consider using `deno compile` for production builds
+- **Permissions**: Minimal permission sets for security
+- **Monitoring**: Built-in logging and error tracking
