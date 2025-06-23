@@ -103,17 +103,24 @@ export class BlockchainAuth {
   }
 
   /**
-   * Load the private key from the certs folder
+   * Load the private key from environment variable or certs folder
    * @returns Promise that resolves when the key is loaded
    */
   async loadPrivateKey(): Promise<void> {
     try {
-      console.log(`Attempting to load private key from: ${this.keyPath}`);
+      // First, try to load from environment variable (priority)
+      const envPrivateKey = Deno.env.get('BLOCKCHAIN_PRIVATE_KEY');
+      if (envPrivateKey) {
+        this.privateKey = envPrivateKey.trim();
+        console.log('Private key loaded successfully from environment variable');
+        return;
+      }
       
-      // Read the file from the filesystem using Deno
+      // If not found in environment, load from file
+      console.log(`Attempting to load private key from file: ${this.keyPath}`);
       const privateKey = await Deno.readTextFile(this.keyPath);
       this.privateKey = privateKey.trim();
-      console.log('Private key loaded successfully');
+      console.log('Private key loaded successfully from file');
     } catch (error) {
       console.error('Error loading private key:', error);
       throw error;

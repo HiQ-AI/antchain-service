@@ -1,3 +1,19 @@
+import { load } from "std/dotenv/mod.ts";
+
+const envConfig = await load();
+
+
+// 创建配置对象，优先使用环境变量，其次使用.env文件中的配置
+const getConfig = (key: string, defaultValue?: string): string => {
+  // 优先使用环境变量
+  const envValue = Deno.env.get(key);
+  if (envValue !== undefined) {
+    return envValue;
+  }
+  // 其次使用.env文件中的值
+  return envConfig[key] !== undefined ? envConfig[key] : (defaultValue || "");
+};
+
 export interface BlockchainConfig {
     restUrl: string;
     accessId: string;
@@ -12,13 +28,13 @@ export interface BlockchainConfig {
    * Default configuration values
    */
   export const defaultConfig: BlockchainConfig = {
-    restUrl: 'http://123.57.145.236:8088',
-    accessId: '80cd5f70-a6fa-4b64-97f1-7b22c2d3d88e',
-    tenantId: '80cd5f70-a6fa-4b64-97f1-7b22c2d3d88e',
-    account: 'shi',
-    bizId: 'M250226181949',
-    kmsKeyId: '80cd5f70-a6fa-4b64-97f1-7b22c2d3d88e_1741933298091_key',
-    contractName: 'carbon-contract-v4'
+    restUrl: getConfig('BLOCKCHAIN_REST_URL'),
+    accessId: getConfig('BLOCKCHAIN_ACCESS_ID'),
+    tenantId: getConfig('BLOCKCHAIN_TENANT_ID'),
+    account: getConfig('BLOCKCHAIN_ACCOUNT'),
+    bizId: getConfig('BLOCKCHAIN_BIZ_ID'),
+    kmsKeyId: getConfig('BLOCKCHAIN_KMS_KEY_ID'),
+    contractName: getConfig('BLOCKCHAIN_CONTRACT_NAME')
   };
 
 export const blockChainEndpoint = {
