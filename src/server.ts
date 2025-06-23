@@ -18,7 +18,7 @@ app.get("/api", (c) => {
     data: {
       name: appConfig.name,
       version: appConfig.version,
-      description: "提供隐私计算任务的创建、数据推送和结果获取功能"
+      description: appConfig.description
     }
   });
 });
@@ -51,7 +51,7 @@ app.notFound((c) => {
 const port = appConfig.port;
 const host = appConfig.host;
 
-console.log(`🚀 隐私计算API服务启动中, ${host}:${port}`);
+console.log(`🚀 区块链服务启动中, ${host}:${port}`);
 console.log(`✅ 服务已启动: http://${host}:${port}`);
 console.log(`环境: ${appConfig.environment}`);
 

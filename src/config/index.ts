@@ -16,6 +16,8 @@ export interface AppConfig {
     port: number;
     host: string;
     environment: 'development' | 'production' | 'test';
+    description: string;
+    [key: string]: any;
   };
   
   // 区块链配置
@@ -30,11 +32,12 @@ export interface AppConfig {
 // 默认全局配置
 export const defaultConfig: AppConfig = {
   app: {
-    name: '区块链隐私计算API',
+    name: '蚂蚁链服务',
     version: '1.0.0',
     port: parseInt(Deno.env.get('PORT') || '8000'),
     host: Deno.env.get('HOST') || 'localhost',
     environment: (Deno.env.get('ENV') || 'development') as 'development' | 'production' | 'test',
+    description: '提供隐私计算任务的创建、数据推送和结果获取功能'
   },
   blockchain: defaultBlockchainConfig,
   tcs: {
