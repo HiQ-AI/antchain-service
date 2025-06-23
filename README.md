@@ -19,3 +19,9 @@ deno run -A src/examples/contract-example.ts
 ```
 
 For more details about writing and deploying contracts, please visit project [myfish-contract](https://github.com/Biaoo/myfish-contract)
+
+## Start Server
+
+```bash
+deno run -A src/server.ts
+```
