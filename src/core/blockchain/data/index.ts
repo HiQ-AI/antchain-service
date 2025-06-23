@@ -255,3 +255,41 @@ export class BlockchainData {
     return await this.processResponse(response, 'Query receipt successful');
   }
 } 
+
+
+export function base64ToUint8Array(base64Str: string): Uint8Array {
+  const binary = atob(base64Str);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes;
+} 
+
+export function parseData(data: string) {
+    try {
+      // 解析JSON字符串（如果结果是字符串形式）
+      const resultObj = typeof data === 'string' 
+        ? JSON.parse(data) 
+        : data;
+      
+      // 获取base64编码的数据
+      const base64Data = resultObj.transactionDO?.data;
+      
+      if (base64Data) {
+        // 解码base64数据
+        // 在Deno中使用:
+        const decodedText = new TextDecoder().decode(
+          base64ToUint8Array(base64Data)
+        );
+        
+        // 解析为JSON对象
+        const originalData = JSON.parse(decodedText);
+        console.log('Original stored data:', originalData);
+        return originalData;
+      }
+    } catch (error) {
+      console.error('Error decoding data:', error);
+      return null;
+    }
+  }

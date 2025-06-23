@@ -1,5 +1,6 @@
 import { Hono, Status } from "../deps.ts";
 import { BlockchainService } from "../services/blockchain.ts";
+import { parseData } from "../core/blockchain/data/index.ts";
 
 const router = new Hono();
 
@@ -91,6 +92,15 @@ router.post("/data/query", async (c) => {
   }
 });
 
+router.post("/data/parse", async (c) => {
+  const body = await c.req.json();
+  const data = body.data;
+  const result = parseData(data);
+  return c.json({
+    success: true,
+    data: result
+  });
+});
 /**
  * 查询交易状态
  * GET /api/node/transactions/:txHash/status
