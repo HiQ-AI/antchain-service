@@ -1,4 +1,5 @@
 import { Hono, Status } from "../deps.ts";
+import { loggerMiddleware } from "src/middlewares/logger.ts";
 import { BlockchainService } from "../services/blockchain.ts";
 
 const router = new Hono();
@@ -51,12 +52,7 @@ router.post("/token", async (c) => {
 router.get("/verify", async (c) => {
   try {
     // 从请求头获取token
-    const authHeader = c.req.header('Authorization');
-    let token: string | null = null;
-    
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      token = authHeader.substring(7);
-    }
+    const token = c.req.header('x-antchain-token') || '';
     
     if (!token) {
       return c.json({
@@ -68,6 +64,8 @@ router.get("/verify", async (c) => {
     
     // 验证token
     const isValid = await BlockchainService.validateToken(token);
+    console.log(`Token : ${token}`);
+    console.log(`Token verification result: ${isValid}`);
     
     if (isValid) {
       return c.json({

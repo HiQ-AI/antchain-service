@@ -10,7 +10,7 @@ const router = new Hono();
 router.post("/data/store", async (c) => {
   try {
     const body = await c.req.json();
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     if (!body.data) {
       return c.json({
@@ -56,7 +56,7 @@ router.post("/data/store", async (c) => {
 router.post("/data/query", async (c) => {
   try {
     const body = await c.req.json();
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     // 构建查询参数
     const queryParams = {
@@ -98,7 +98,7 @@ router.post("/data/query", async (c) => {
 router.get("/transactions/:txHash/status", async (c) => {
   try {
     const txHash = c.req.param('txHash');
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     if (!txHash) {
       return c.json({
@@ -140,7 +140,7 @@ router.get("/transactions/:txHash/status", async (c) => {
 router.post("/privacy/tasks/:taskId/data", async (c) => {
   try {
     const taskId = c.req.param('taskId');
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     if (!taskId) {
       return c.json({
@@ -193,7 +193,7 @@ router.post("/privacy/tasks/:taskId/data", async (c) => {
 router.get("/privacy/tasks/:taskId/status", async (c) => {
   try {
     const taskId = c.req.param('taskId');
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     if (!taskId) {
       return c.json({
@@ -235,7 +235,7 @@ router.get("/privacy/tasks/:taskId/status", async (c) => {
 router.post("/contracts/call", async (c) => {
   try {
     const body = await c.req.json();
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     // 验证必要字段
     if (!body.contractName || !body.methodSignature) {
@@ -285,7 +285,7 @@ router.post("/contracts/call", async (c) => {
  */
 router.get("/health", async (c) => {
   try {
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     // 检查区块链连接状态
     const tokenValid = await BlockchainService.validateToken(token);

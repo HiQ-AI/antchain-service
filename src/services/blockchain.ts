@@ -32,9 +32,17 @@ export class BlockchainService {
   static async validateToken(token?: string): Promise<boolean> {
     try {
       if (!token) {
-        token = await blockchain.auth.getToken();
+        // 如果没有token，返回false
+        return false;
       }
-      return token !== null;
+      
+      // 尝试使用token调用一个简单的区块链API来验证其有效性
+      // 这里使用合约调用来测试token，如果token无效会抛出错误
+      const result = await blockchain.contract.callWasmContract(token, 'GetName()');
+      
+      // 如果调用成功（无论业务逻辑是否成功），说明token有效
+      // 如果token无效，区块链API会返回认证错误
+      return result.success !== false;
     } catch (error) {
       console.error('Token validation error:', error);
       return false;
@@ -49,7 +57,7 @@ export class BlockchainService {
    */
   static async storeData(data: string, token?: string): Promise<ApiResponse> {
     try {
-      const result = await blockchain.data.deposit(data, token);
+      const result = await blockchain.data.depositData({data: data}, token);
       return result;
     } catch (error) {
       console.error('Data storage error:', error);
@@ -69,7 +77,7 @@ export class BlockchainService {
    */
   static async queryData(params: DataQueryParams, token?: string): Promise<ApiResponse> {
     try {
-      const result = await blockchain.data.query(params, token);
+      const result = await blockchain.data.queryData(params, token);
       return result;
     } catch (error) {
       console.error('Data query error:', error);
@@ -89,7 +97,7 @@ export class BlockchainService {
    */
   static async getTransactionStatus(txHash: string, token?: string): Promise<ApiResponse> {
     try {
-      const result = await blockchain.data.queryTransaction(txHash, token);
+      const result = await blockchain.data.queryReceipt(txHash, token);
       return result;
     } catch (error) {
       console.error('Transaction query error:', error);
