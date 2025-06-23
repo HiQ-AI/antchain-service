@@ -1,0 +1,25 @@
+## @name local-test
+### @name api
+curl -X GET http://localhost:8000/api
+
+### @name get-auth-token
+curl -X POST  http://localhost:8000/api/auth/token
+
+### @name verify-token
+curl -X GET http://localhost:8000/api/auth/verify 
+-H "x-antchain-token: {token}"
+
+### @name deposit-data
+curl -X POST http://localhost:8000/api/node/data/store 
+-H "x-antchain-token: {token}" 
+-d '{"data": "Hello, World!"}'
+
+### @name query-data
+curl -X POST http://localhost:8000/api/node/data/query 
+-H "x-antchain-token: {token}" 
+-d '{"dataId": "fc572726d4c4dddeb83a061af8c4bc84136a8156fd34ec77f3e714f604f12b30"}'
+
+### @name parse-data
+curl -X POST http://localhost:8000/api/node/data/parse 
+-H "x-antchain-token: {token}" 
+-d '{"data": "{\"blockNumber\":3359782,\"hash\":\"fc572726d4c4dddeb83a061af8c4bc84136a8156fd34ec77f3e714f604f12b30\",\"transactionDO\":{\"data\":\"IkhlbGxvLCBXb3JsZCEi\",\"timestamp\":1750646750260,\"txType\":\"TX_DEPOSIT_DATA\"}}"}'

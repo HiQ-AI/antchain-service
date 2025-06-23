@@ -1,0 +1,525 @@
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery \
+  -H "Content-Type: application/json" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-isv-sk: 73y8jTkIr64Tw826" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: b0da1a5e0f769b5fd2386f1dc8c0735f021a0860be8113e215a3f95f93a7fd5b" \
+  -d '{}'
+
+###
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "Content-Type: application/json" \
+  -H "x-timestamp: 1742531938564" \
+  -H "x-signature: 0vlcgnd5IZ5Z9s1GDWKTsfjxPz6kbo/r43eaFsvPGOo=" \
+  -d '{"page":1,"pageSize":10}'
+
+
+### 
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "Content-Type: application/json" \
+  -H "x-timestamp: 1742531938564" \
+  -H "x-signature: 0vlcgnd5IZ5Z9s1GDWKTsfjxPz6kbo/r43eaFsvPGOo=" \
+  -d '{"page":1,"pageSize":10}'
+
+### 测试
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-api-trace-id: 5eb5f755bd984f6ebb1bc564318aaa5a" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-timestamp: 1742530726463" \
+  -H "Content-Type: application/json" \
+  -H "x-signature: e2O6ngGx7oMDQqJxn0PlzkvRSfmjXJNNxfWwATE31dg=" \
+  -d '{"page":1,"pageSize":10}'
+
+
+
+
+
+
+
+
+
+### 测试
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "Content-Type: application/json" \
+  -H "x-signature: Wa9v7dg9qRAcoLdf9oyUlIvO9s01fqUdBcbH7smmEEE=" \
+  -d '{"page":1,"pageSize":10}'
+# 注意：
+# 1. <计算后的签名值> 需要根据您的isvSk和请求内容计算得出
+# 2. 计算签名需要使用SHA256_HMAC算法，根据请求方法、URL、时间戳和请求体计算
+# 3. 上述命令中使用uuidgen生成UUID并去除破折号，模拟Java代码中的UUID.randomUUID().toString().replace("-", "")
+
+###
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: Db/jb8IEhOBZS3BHWlF0Ua7bGAwz8PnSrs8pHoifYZM=" \
+  -d '{}'
+
+###
+curl -X GET 'http://123.57.86.188:32081/api/project/pageQuery?page=1&pageSize=10' \
+  -H 'x-authentication-version: 1.0' \
+  -H 'x-authentication-type: isv' \
+  -H 'x-tenant-id: pds1Admin' \
+  -H 'x-isv-ak: pzeUK+obho+uFPeS' \
+  -H 'x-signature-method: SHA256_HMAC' \
+  -H 'x-signature: GSPx6dnLDgNjptvjvUJTAnvo9D4ng1XXHntvfVSfIKs='
+
+
+###
+curl -X GET 'http://123.57.86.188:32081/api/project/pageQuery?page=1&pageSize=10' \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: 2uYxbilkCzP2Gd0kgqd5itoXgHqmCv6IHbUmUO5O1Sc="
+
+###
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery?page=1&pageSize=10 \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: GSPx6dnLDgNjptvjvUJTAnvo9D4ng1XXHntvfVSfIKs="
+
+###
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery?page=1&pageSize=10 \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: GSPx6dnLDgNjptvjvUJTAnvo9D4ng1XXHntvfVSfIKs="
+
+###
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery?page=1&pageSize=10 \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: GSPx6dnLDgNjptvjvUJTAnvo9D4ng1XXHntvfVSfIKs="
+
+
+### 
+curl 'http://123.57.86.188:32081/api/app/instance/create' \
+  -H 'Accept: application/json, text/plain, */*' \
+  -H 'Accept-Language: zh-CN,zh;q=0.9,en-GB-oxendict;q=0.8,en;q=0.7' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Origin: http://123.57.86.188:32081' \
+  -H 'Referer: http://123.57.86.188:32081/' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36' \
+  -H 'authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJUVE4wMiIsInN1YiI6IlVTRVJfQVVUSF9UT0tFTiIsImF1ZCI6InBkczFBZG1pbl9wZHMxQWRtaW4iLCJpYXQiOjE3NDI3MTkyODYsImV4cCI6MTc0MjcyNjQ4Nn0.fce5bdL-k4cgShevvVozJxu9ShIJiel1fRAVSwPqj5I' \
+  --data-raw '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}' \
+
+
+### 测试
+curl -X POST http://123.57.86.188:32081/api/app/instance/create \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: 0FH+htXJsS8QDdYR7NER7w1a8BD+BcG7skk5q60FiYA=" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}'
+
+
+### 测试
+curl -X POST http://123.57.86.188:32081/api/app/instance/create \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: gG3teFFVjPZU5IsxdUoGoVb6LtHkXAbiz60wmkyXAKo=" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}'
+
+
+### 
+curl -X POST http://123.57.86.188:32081/api/app/instance/create \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: gG3teFFVjPZU5IsxdUoGoVb6LtHkXAbiz60wmkyXAKo=" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}'
+
+###
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery?page=1&pageSize=10 \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: GSPx6dnLDgNjptvjvUJTAnvo9D4ng1XXHntvfVSfIKs="
+
+
+
+### 
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: gG3teFFVjPZU5IsxdUoGoVb6LtHkXAbiz60wmkyXAKo=" \
+  -H "Content-Type: application/json" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}'
+
+
+### 
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: jraOz6hgayzQ0tVsyJzQMTh79oIfhVM1kkP+OFNOqoU=" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg"}'
+
+
+### 
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: jraOz6hgayzQ0tVsyJzQMTh79oIfhVM1kkP+OFNOqoU=" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg"}'
+
+### 
+curl "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: CaVCRrh1rLtT3cCWLq4cpVMt9jI/fTpWT65GY4CG8kw=" \
+  -d '{}'
+
+### 
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: 0pqazlngP1uuNDOiGG33apXHlo/14rOqHGBKOUL5YKM=" \
+  -H "Content-Type: application/json;charset=utf-8" \
+  -d '{}'
+
+###
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery?page=1&pageSize=10 \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: GSPx6dnLDgNjptvjvUJTAnvo9D4ng1XXHntvfVSfIKs="
+
+
+###
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: gG3teFFVjPZU5IsxdUoGoVb6LtHkXAbiz60wmkyXAKo=" \
+  -H "Content-Type: application/json;charset=utf-8" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}'
+
+### 
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: 2NThDnpgqOrSIehGgnNMVbWRAGuXB41j0LFzYCkZ3hE=" \
+  -H "Content-Type: application/json;charset=utf-8" \
+  -d '{
+  "projectId": "PROJ_20250323163915_2nW3f7wz",
+  "envId": "ENV_20250323163915_8EJkp60z",
+  "appId": "APP_20250323164059_kHFeIqTg",
+  "dynamicParam": "{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"'
+
+### 
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: ROfrygMLSKBboJKvweqvMNFHTYDdBjOTlF2gv05iJv0=" \
+  -H "Content-Type: application/json;charset=utf-8" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}'
+
+### 
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: pDER9ZaoYG6pAOYZoKL1mmked4hmqG3zyHgUGlcFd1Q=" \
+  -H "Content-Type: application/json;charset=utf-8" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":{"dynamicParameter":"","operatorList":[{"code":"dataset_reader","id":"1af6c6a3-f40f-4c99-8d36-3f995e6ce816","meta":{"analyzeRule":{"analyzerType":"PDS_DATASET_READER"},"checkRules":[],"moduleMapRule":{"mapRuleType":"ONLY_ONE","mapParams":{"openEngineModuleName":"open_engine_mod_v2","roleMap":{"worker":"role1"}}}},"dynamicParameter":{"custom_params":{"dataSetInternalID":"0","id":"0352d09d-db26-4729-b207-2dcdf6c9a75b","version":"00.00.001"},"co_dataset_id":"CO_DATASET_20250323164852_moyjsDA0","requested_field_list":["value_0"]}},{"code":"dataset_reader","id":"475f757e-beae-4b70-9e78-892bf5f59855","meta":{"analyzeRule":{"analyzerType":"PDS_DATASET_READER"},"checkRules":[],"moduleMapRule":{"mapRuleType":"ONLY_ONE","mapParams":{"openEngineModuleName":"open_engine_mod_v2","roleMap":{"worker":"role1"}}}},"dynamicParameter":{"custom_params":{"dataSetInternalID":"0","id":"04650d44-4eb5-4d29-b70c-ce86bfdff684","version":"00.00.001"},"co_dataset_id":"CO_DATASET_20250323164711_44Uq3G97","requested_field_list":["value_0"]}},{"code":"data_writer","id":"c9706900-23d8-48a9-b1c3-30d70f7d9db1","meta":{"analyzeRule":{"analyzerType":"PDS_DATA_WRITER","params":{"isCipherText":false}},"checkRules":[],"moduleMapRule":{"mapRuleType":"ONLY_ONE","mapParams":{"openEngineModuleName":"open_engine_mod_v2","roleMap":{"worker":"role1"}}}},"dynamicParameter":{"storage_type":"true","owner_did":"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d","format_type":"CSV","name":"result","is_manage":true}},{"code":"scql","id":"550a900b-58ea-4bb9-a976-cedd1c54b88e","meta":{"analyzeRule":{"analyzerType":"SQL","params":{"receiverRoleName":"receiver"}},"enablePreConfig":true,"preset":"preset-shape-double-knife","checkRules":[{"parameterPaths":["$.dp_{workerIndex}__ccl.column_ccl.keySet()"],"constraintRule":"EXIST_IN_DATASET_FIELD","ports":["dp_input_file"]},{"constraintRule":"WORKER_NOT_SAME","params":{"roleList":["dp"]}},{"parameterPaths":["$.dp_0__table_name","$.dp_1__table_name"],"params":"^[A-Za-z0-9_$]*$","constraintRule":"REG_EX","ports":["dp_input_file"]}],"moduleMapRule":{"mapRuleType":"WORKER_NUM","role":"dp","mapParams":{"1":{"module":"scql_single_dp"}}}},"dynamicParameter":{"dp_0__ccl":{"column_ccl":{"value_0":"ALL_DISCLOSURE"}},"result_table_create_cmd":"CREATE table result_table (average_value double)","query_cmd":"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data","dp_1__ccl":{"column_ccl":{"value_0":"ALL_DISCLOSURE"}},"dp_0__table_name":"t1","dp_1__table_name":"t2","_worker":{"receiver":"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d"}}}]}}'
+
+
+###
+curl "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "Content-Type: application/json;charset=utf-8" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":{"dynamicParameter":"","operatorList":[{"code":"dataset_reader","id":"1af6c6a3-f40f-4c99-8d36-3f995e6ce816","meta":{"analyzeRule":{"analyzerType":"PDS_DATASET_READER"},"checkRules":[],"moduleMapRule":{"mapRuleType":"ONLY_ONE","mapParams":{"openEngineModuleName":"open_engine_mod_v2","roleMap":{"worker":"role1"}}}},"dynamicParameter":{"custom_params":{"dataSetInternalID":"0","id":"0352d09d-db26-4729-b207-2dcdf6c9a75b","version":"00.00.001"},"co_dataset_id":"CO_DATASET_20250323164852_moyjsDA0","requested_field_list":["value_0"]}},{"code":"dataset_reader","id":"475f757e-beae-4b70-9e78-892bf5f59855","meta":{"analyzeRule":{"analyzerType":"PDS_DATASET_READER"},"checkRules":[],"moduleMapRule":{"mapRuleType":"ONLY_ONE","mapParams":{"openEngineModuleName":"open_engine_mod_v2","roleMap":{"worker":"role1"}}}},"dynamicParameter":{"custom_params":{"dataSetInternalID":"0","id":"04650d44-4eb5-4d29-b70c-ce86bfdff684","version":"00.00.001"},"co_dataset_id":"CO_DATASET_20250323164711_44Uq3G97","requested_field_list":["value_0"]}},{"code":"data_writer","id":"c9706900-23d8-48a9-b1c3-30d70f7d9db1","meta":{"analyzeRule":{"analyzerType":"PDS_DATA_WRITER","params":{"isCipherText":false}},"checkRules":[],"moduleMapRule":{"mapRuleType":"ONLY_ONE","mapParams":{"openEngineModuleName":"open_engine_mod_v2","roleMap":{"worker":"role1"}}}},"dynamicParameter":{"storage_type":"true","owner_did":"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d","format_type":"CSV","name":"result","is_manage":true}},{"code":"scql","id":"550a900b-58ea-4bb9-a976-cedd1c54b88e","meta":{"analyzeRule":{"analyzerType":"SQL","params":{"receiverRoleName":"receiver"}},"enablePreConfig":true,"preset":"preset-shape-double-knife","checkRules":[{"parameterPaths":["$.dp_{workerIndex}__ccl.column_ccl.keySet()"],"constraintRule":"EXIST_IN_DATASET_FIELD","ports":["dp_input_file"]},{"constraintRule":"WORKER_NOT_SAME","params":{"roleList":["dp"]}},{"parameterPaths":["$.dp_0__table_name","$.dp_1__table_name"],"params":"^[A-Za-z0-9_$]*$","constraintRule":"REG_EX","ports":["dp_input_file"]}],"moduleMapRule":{"mapRuleType":"WORKER_NUM","role":"dp","mapParams":{"1":{"module":"scql_single_dp"}}}},"dynamicParameter":{"dp_0__ccl":{"column_ccl":{"value_0":"ALL_DISCLOSURE"}},"result_table_create_cmd":"CREATE table result_table (average_value double)","query_cmd":"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data","dp_1__ccl":{"column_ccl":{"value_0":"ALL_DISCLOSURE"}},"dp_0__table_name":"t1","dp_1__table_name":"t2","_worker":{"receiver":"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d"}}}]}}' \
+  -H "x-signature: pDER9ZaoYG6pAOYZoKL1mmked4hmqG3zyHgUGlcFd1Q="
+
+###
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery?page=1&pageSize=10 \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: GSPx6dnLDgNjptvjvUJTAnvo9D4ng1XXHntvfVSfIKs="
+
+###
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "Content-Type: application/json; charset=utf-8" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: 4odrjtCgTDJ+fqJR4dGhR1SIvhyOKv5Es/06hDqE8VU=" \
+  -d '{}'
+
+###
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "Content-Type: application/json; charset=utf-8" \
+  -H "x-signature: 4odrjtCgTDJ+fqJR4dGhR1SIvhyOKv5Es/06hDqE8VU=" \
+  -d '{}'
+
+###
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: X3kDetxL09vEu3Q2VBeExTuGXVjfRxJf4uQjTFBf4w8="
+
+###
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: CaVCRrh1rLtT3cCWLq4cpVMt9jI/fTpWT65GY4CG8kw=" \
+  -d '{}'
+
+###
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature: CaVCRrh1rLtT3cCWLq4cpVMt9jI/fTpWT65GY4CG8kw=" \
+  -d '{}'
+
+###
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-authentication-type: isv" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-signature: CaVCRrh1rLtT3cCWLq4cpVMt9jI/fTpWT65GY4CG8kw=" \
+  -d '{}'
+
+###
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: CaVCRrh1rLtT3cCWLq4cpVMt9jI/fTpWT65GY4CG8kw=" \
+  -d '{}'
+
+
+### 
+curl -X GET http://123.57.86.188:32081/api/project/pageQuery?page=1&pageSize=10 \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: GSPx6dnLDgNjptvjvUJTAnvo9D4ng1XXHntvfVSfIs="
+
+### 
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: CaVCRrh1rLtT3cCWLq4cpVMt9jI/fTpWT65GY4CG8kw=" \
+  -d '{}'
+
+###
+curl -X POST "http://123.57.86.188:32081/api/app/instance/create" \
+  -H "Content-Type: application/json; charset=utf-8" \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: ROfrygMLSKBboJKvweqvMNFHTYDdBjOTlF2gv05iJv0=" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}'
+
+
+###
+curl -X POST http://123.57.86.188:32081/api/datasource/create \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: WDkFmDLdqGK8jR8aVKhvGwnDI6xKmHX+NO97m4KZPDw" \
+  -d '{"name":"api_test","description":"api_test","writable":true,"type":"MYSQL","connConfig":"{\"host\":\"127.0.0.1\",\"port\":3306,\"username\":\"root\",\"password\":\"123456\",\"database\":\"test\",\"schema\":\"\"}"}'
+
+###
+curl -X POST http://123.57.86.188:32081/api/app/instance/create \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: gG3teFFVjPZU5IsxdUoGoVb6LtHkXAbiz60wmkyXAKo=" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}'
+
+
+### 
+curl -X POST 'http://123.57.86.188:32081/api/app/instance/create' \
+  -H 'x-authentication-version: 1.0' \
+  -H 'x-authentication-type: isv' \
+  -H 'x-tenant-id: pds1Admin' \
+  -H 'x-isv-ak: pzeUK+obho+uFPeS' \
+  -H 'x-signature-method: SHA256_HMAC' \
+  -H 'x-signature: gG3teFFVjPZU5IsxdUoGoVb6LtHkXAbiz60wmkyXAKo=' \
+  -H 'Content-Type: application/json' \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}'
+
+
+###
+curl -X POST http://123.57.86.188:32081/api/app/instance/create \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: gG3teFFVjPZU5IsxdUoGoVb6LtHkXAbiz60wmkyXAKo=" \
+  -H "Content-Type: application/json" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}'
+
+###
+curl -X POST http://123.57.86.188:32081/api/app/instance/create \
+  -H "x-authentication-version: 1.0" \
+  -H "x-authentication-type: isv" \
+  -H "x-tenant-id: pds1Admin" \
+  -H "x-isv-ak: pzeUK+obho+uFPeS" \
+  -H "x-signature-method: SHA256_HMAC" \
+  -H "x-signature: gG3teFFVjPZU5IsxdUoGoVb6LtHkXAbiz60wmkyXAKo=" \
+  -H "Content-Type: application/json" \
+  -d '{"projectId":"PROJ_20250323163915_2nW3f7wz","envId":"ENV_20250323163915_8EJkp60z","appId":"APP_20250323164059_kHFeIqTg","dynamicParam":"{\"dynamicParameter\":\"\",\"operatorList\":[{\"code\":\"dataset_reader\",\"id\":\"1af6c6a3-f40f-4c99-8d36-3f995e6ce816\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"0352d09d-db26-4729-b207-2dcdf6c9a75b\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164852_moyjsDA0\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"dataset_reader\",\"id\":\"475f757e-beae-4b70-9e78-892bf5f59855\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATASET_READER\\\"},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"custom_params\\\":{\\\"dataSetInternalID\\\":\\\"0\\\",\\\"id\\\":\\\"04650d44-4eb5-4d29-b70c-ce86bfdff684\\\",\\\"version\\\":\\\"00.00.001\\\"},\\\"co_dataset_id\\\":\\\"CO_DATASET_20250323164711_44Uq3G97\\\",\\\"requested_field_list\\\":[\\\"value_0\\\"]}\"},{\"code\":\"data_writer\",\"id\":\"c9706900-23d8-48a9-b1c3-30d70f7d9db1\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"PDS_DATA_WRITER\\\",\\\"params\\\":{\\\"isCipherText\\\":false}},\\\"checkRules\\\":[],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"ONLY_ONE\\\",\\\"mapParams\\\":{\\\"openEngineModuleName\\\":\\\"open_engine_mod_v2\\\",\\\"roleMap\\\":{\\\"worker\\\":\\\"role1\\\"}}}}\",\"dynamicParameter\":\"{\\\"storage_type\\\":\\\"true\\\",\\\"owner_did\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\",\\\"format_type\\\":\\\"CSV\\\",\\\"name\\\":\\\"result\\\",\\\"is_manage\\\":true}\"},{\"code\":\"scql\",\"id\":\"550a900b-58ea-4bb9-a976-cedd1c54b88e\",\"meta\":\"{\\\"analyzeRule\\\":{\\\"analyzerType\\\":\\\"SQL\\\",\\\"params\\\":{\\\"receiverRoleName\\\":\\\"receiver\\\"}},\\\"enablePreConfig\\\":true,\\\"preset\\\":\\\"preset-shape-double-knife\\\",\\\"checkRules\\\":[{\\\"parameterPaths\\\":[\\\"$.dp_{workerIndex}__ccl.column_ccl.keySet()\\\"],\\\"constraintRule\\\":\\\"EXIST_IN_DATASET_FIELD\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]},{\\\"constraintRule\\\":\\\"WORKER_NOT_SAME\\\",\\\"params\\\":{\\\"roleList\\\":[\\\"dp\\\"]}},{\\\"parameterPaths\\\":[\\\"$.dp_0__table_name\\\",\\\"$.dp_1__table_name\\\"],\\\"params\\\":\\\"^[A-Za-z0-9_$]*$\\\",\\\"constraintRule\\\":\\\"REG_EX\\\",\\\"ports\\\":[\\\"dp_input_file\\\"]}],\\\"moduleMapRule\\\":{\\\"mapRuleType\\\":\\\"WORKER_NUM\\\",\\\"role\\\":\\\"dp\\\",\\\"mapParams\\\":{\\\"1\\\":{\\\"module\\\":\\\"scql_single_dp\\\"}}}}\",\"dynamicParameter\":\"{\\\"dp_0__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"result_table_create_cmd\\\":\\\"CREATE table result_table (average_value double)\\\",\\\"query_cmd\\\":\\\"SELECT AVG(combined_values) AS average_value FROM ( SELECT value_0 AS combined_values FROM t1 UNION ALL SELECT value_0 AS combined_values FROM t2 ) AS combined_data\\\",\\\"dp_1__ccl\\\":{\\\"column_ccl\\\":{\\\"value_0\\\":\\\"ALL_DISCLOSURE\\\"}},\\\"dp_0__table_name\\\":\\\"t1\\\",\\\"dp_1__table_name\\\":\\\"t2\\\",\\\"_worker\\\":{\\\"receiver\\\":\\\"did:private:0000:698d9f20776b90eb5c1dac2f27074fcb55dee103426e6822d634127bc539ee7d\\\"}}\"}]}"}'
+
+
+
+### test connectivity
+curl -X POST 'http://123.57.86.188:32081/api/dataset/local/testConnecivity' \
+  -H 'x-authentication-version: 1.0' \
+  -H 'x-authentication-type: isv' \
+  -H 'x-tenant-id: pds1Admin' \
+  -H 'x-isv-ak: pzeUK+obho+uFPeS' \
+  -H 'x-signature-method: SHA256_HMAC' \
+  -H 'x-signature: ggg+4q0WEKkAnoNSDa5uw1CHKYA0PGnHg8Wh/Shc77k=' \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"testdata","description":"testdata","datasourceType":"API","locationConfig":"{}","formatConfig":"{}","connConfig":"{\"script\":\"package com.antgroup.antchain.fastdf.dataproxy.manager.connector.api\\n\\nimport com.alibaba.fastjson.JSONArray\\nimport com.alibaba.fastjson.JSONObject\\nimport com.antgroup.antchain.idata.rest.component.common.data.AbstractRestApiDataFetchAdaptor\\nimport com.antgroup.antchain.idata.rest.component.common.model.FetchDataResultBO\\nimport com.antgroup.antchain.idata.rest.component.common.model.RestApiDataSourceConfigBO\\nimport com.antgroup.antchain.fastdf.dataproxy.manager.connector.api.relateObject.DatasetMetaTableSchemaFieldTypeEnum\\nimport com.antgroup.antchain.fastdf.dataproxy.manager.connector.api.relateObject.ApiDatasetResponse\\nimport com.antgroup.antchain.fastdf.dataproxy.manager.connector.api.relateObject.DatasetTableSchemaFieldData\\nimport lombok.AllArgsConstructor\\nimport lombok.Builder\\nimport lombok.Data\\nimport lombok.NoArgsConstructor\\nimport okhttp3.*\\nimport org.apache.commons.lang3.ObjectUtils\\n\\nimport javax.validation.constraints.NotBlank\\n\\nclass DatasetDemo extends AbstractRestApiDataFetchAdaptor<DatasetRequest, ApiDatasetResponse> {\\n\\n    DatasetDemo(OkHttpClient client, RestApiDataSourceConfigBO config) {\\n        super(client, config)\\n    }\\n\\n    @Override\\n    Request.Builder createNewCall(DatasetRequest validatedCondition, String token) throws Exception {\\n\\n        String url = 'https://qgzvkongdjqiiamzbbts.supabase.co/functions/v1/request_process_data'\\n\\n        JSONObject requestBody = new JSONObject()\\n        if (!ObjectUtils.isEmpty(validatedCondition)) {\\n            if (!ObjectUtils.isEmpty(validatedCondition.getId())) {\\n                requestBody.put('id', validatedCondition.getId())\\n            }\\n            if (!ObjectUtils.isEmpty(validatedCondition.getVersion())) {\\n                requestBody.put('version', validatedCondition.getVersion())\\n            }\\n            if (!ObjectUtils.isEmpty(validatedCondition.getDataSetInternalID())) {\\n                requestBody.put('dataSetInternalID', validatedCondition.getDataSetInternalID())\\n            }\\n        }\\n\\n        RequestBody body = RequestBody.create(MediaType.parse('application/json'),\\n                requestBody.toJSONString());\\n\\n        return new Request.Builder()\\n                .url(url)\\n                .post(body)\\n                .addHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnenZrb25nZGpxaWlhbXpiYnRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzNjUyMzQsImV4cCI6MjA1NTk0MTIzNH0.PsZIcjAqexpqIg-91twpKjALyw9big6Bn4WRLLoCzTo')\\n                .addHeader('Content-Type', 'application/json')\\n                .addHeader('x_key', '1qaZ_Xsw2_Mju7');\\n    }\\n\\n    @Override\\n    protected FetchDataResultBO<ApiDatasetResponse> parseHttpResponse(DatasetRequest apiDatasetRequest, String body) {\\n\\n        JSONObject res = JSONObject.parseObject(body)\\n        JSONArray data = res.getJSONArray('value')\\n        ApiDatasetResponse response = new ApiDatasetResponse()\\n        List<List<DatasetTableSchemaFieldData>> dataList = new ArrayList<>()\\n        List<DatasetTableSchemaFieldData> datasetTableSchemaFieldDataList = new ArrayList<>()\\n\\n        for (int i = 0; i < data.size(); i++) {                \\n            DatasetTableSchemaFieldData datasetTableSchemaFieldData = new DatasetTableSchemaFieldData()\\n            datasetTableSchemaFieldData.setFieldName(\\\"value_\\\" + i)\\n            datasetTableSchemaFieldData.setFieldType(DatasetMetaTableSchemaFieldTypeEnum.DOUBLE)\\n            datasetTableSchemaFieldData.setCurrentType(DatasetMetaTableSchemaFieldTypeEnum.DOUBLE)\\n            datasetTableSchemaFieldData.setCurrentValue(data.get(i))\\n            datasetTableSchemaFieldDataList.add(datasetTableSchemaFieldData)\\n        }\\n        \\n        dataList.add(datasetTableSchemaFieldDataList)\\n        response.setDataList(dataList)\\n        response.setJsonResult(body)\\n        return FetchDataResultBO.success(response)\\n    }\\n\\n    @Data\\n    @Builder\\n    @NoArgsConstructor\\n    @AllArgsConstructor\\n    static class DatasetRequest {\\n        @NotBlank\\n        public String id;\\n        \\n        public String version;\\n        \\n        public String dataSetInternalID;  \\n\\n        String getId() {\\n            return id;\\n        }\\n        \\n        void setId(String id) {\\n            this.id = id;\\n        }\\n        \\n        String getVersion() {\\n            return version;\\n        }\\n        \\n        void setVersion(String version) {\\n            this.version = version;\\n        }\\n        \\n        String getDataSetInternalID() { \\n            return dataSetInternalID;\\n        }\\n        \\n        void setDataSetInternalID(String dataSetInternalID) { \\n            this.dataSetInternalID = dataSetInternalID;\\n        }\\n    }\\n}\"}","customParams":[{"name":"id","type":"STRING","description":"","nullable":false,"value":"42d1385b-178a-4a04-b58c-1d5668c32ffd"},{"name":"version","type":"STRING","description":"","nullable":true,"value":"00.00.001"},{"name":"dataSetInternalID","type":"STRING","description":"","nullable":true,"value":"0"}],"formatType":"API_DATA"}'
+
+###
+curl --request POST \
+  --url http://123.57.86.188:32081/api/dataset/local/testConnecivity \
+  --header 'Accept: */*' \
+  --header 'Accept-Encoding: gzip, deflate, br' \
+  --header 'Connection: keep-alive' \
+  --header 'Content-Type: application/json' \
+  --header 'x-authentication-type: isv' \
+  --header 'x-authentication-version: 1.0' \
+  --header 'x-isv-ak: pzeUK+obho+uFPeS' \
+  --header 'x-signature: ggg+4q0WEKkAnoNSDa5uw1CHKYA0PGnHg8Wh/Shc77k=' \
+  --header 'x-signature-method: SHA256_HMAC' \
+  --header 'x-tenant-id: pds1Admin' \
+  --data '{"name":"testdata","description":"testdata","datasourceType":"API","locationConfig":"{}","formatConfig":"{}","connConfig":"{\"script\":\"package com.antgroup.antchain.fastdf.dataproxy.manager.connector.api\\n\\nimport com.alibaba.fastjson.JSONArray\\nimport com.alibaba.fastjson.JSONObject\\nimport com.antgroup.antchain.idata.rest.component.common.data.AbstractRestApiDataFetchAdaptor\\nimport com.antgroup.antchain.idata.rest.component.common.model.FetchDataResultBO\\nimport com.antgroup.antchain.idata.rest.component.common.model.RestApiDataSourceConfigBO\\nimport com.antgroup.antchain.fastdf.dataproxy.manager.connector.api.relateObject.DatasetMetaTableSchemaFieldTypeEnum\\nimport com.antgroup.antchain.fastdf.dataproxy.manager.connector.api.relateObject.ApiDatasetResponse\\nimport com.antgroup.antchain.fastdf.dataproxy.manager.connector.api.relateObject.DatasetTableSchemaFieldData\\nimport lombok.AllArgsConstructor\\nimport lombok.Builder\\nimport lombok.Data\\nimport lombok.NoArgsConstructor\\nimport okhttp3.*\\nimport org.apache.commons.lang3.ObjectUtils\\n\\nimport javax.validation.constraints.NotBlank\\n\\nclass DatasetDemo extends AbstractRestApiDataFetchAdaptor<DatasetRequest, ApiDatasetResponse> {\\n\\n    DatasetDemo(OkHttpClient client, RestApiDataSourceConfigBO config) {\\n        super(client, config)\\n    }\\n\\n    @Override\\n    Request.Builder createNewCall(DatasetRequest validatedCondition, String token) throws Exception {\\n\\n        String url = '\''https://qgzvkongdjqiiamzbbts.supabase.co/functions/v1/request_process_data'\''\\n\\n        JSONObject requestBody = new JSONObject()\\n        if (!ObjectUtils.isEmpty(validatedCondition)) {\\n            if (!ObjectUtils.isEmpty(validatedCondition.getId())) {\\n                requestBody.put('\''id'\'', validatedCondition.getId())\\n            }\\n            if (!ObjectUtils.isEmpty(validatedCondition.getVersion())) {\\n                requestBody.put('\''version'\'', validatedCondition.getVersion())\\n            }\\n            if (!ObjectUtils.isEmpty(validatedCondition.getDataSetInternalID())) {\\n                requestBody.put('\''dataSetInternalID'\'', validatedCondition.getDataSetInternalID())\\n            }\\n        }\\n\\n        RequestBody body = RequestBody.create(MediaType.parse('\''application/json'\''),\\n                requestBody.toJSONString());\\n\\n        return new Request.Builder()\\n                .url(url)\\n                .post(body)\\n                .addHeader('\''Authorization'\'', '\''Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnenZrb25nZGpxaWlhbXpiYnRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzNjUyMzQsImV4cCI6MjA1NTk0MTIzNH0.PsZIcjAqexpqIg-91twpKjALyw9big6Bn4WRLLoCzTo'\'')\\n                .addHeader('\''Content-Type'\'', '\''application/json'\'')\\n                .addHeader('\''x_key'\'', '\''1qaZ_Xsw2_Mju7'\'');\\n    }\\n\\n    @Override\\n    protected FetchDataResultBO<ApiDatasetResponse> parseHttpResponse(DatasetRequest apiDatasetRequest, String body) {\\n\\n        JSONObject res = JSONObject.parseObject(body)\\n        JSONArray data = res.getJSONArray('\''value'\'')\\n        ApiDatasetResponse response = new ApiDatasetResponse()\\n        List<List<DatasetTableSchemaFieldData>> dataList = new ArrayList<>()\\n        List<DatasetTableSchemaFieldData> datasetTableSchemaFieldDataList = new ArrayList<>()\\n\\n        for (int i = 0; i < data.size(); i++) {                \\n            DatasetTableSchemaFieldData datasetTableSchemaFieldData = new DatasetTableSchemaFieldData()\\n            datasetTableSchemaFieldData.setFieldName(\\\"value_\\\" + i)\\n            datasetTableSchemaFieldData.setFieldType(DatasetMetaTableSchemaFieldTypeEnum.DOUBLE)\\n            datasetTableSchemaFieldData.setCurrentType(DatasetMetaTableSchemaFieldTypeEnum.DOUBLE)\\n            datasetTableSchemaFieldData.setCurrentValue(data.get(i))\\n            datasetTableSchemaFieldDataList.add(datasetTableSchemaFieldData)\\n        }\\n        \\n        dataList.add(datasetTableSchemaFieldDataList)\\n        response.setDataList(dataList)\\n        response.setJsonResult(body)\\n        return FetchDataResultBO.success(response)\\n    }\\n\\n    @Data\\n    @Builder\\n    @NoArgsConstructor\\n    @AllArgsConstructor\\n    static class DatasetRequest {\\n        @NotBlank\\n        public String id;\\n        \\n        public String version;\\n        \\n        public String dataSetInternalID;  \\n\\n        String getId() {\\n            return id;\\n        }\\n        \\n        void setId(String id) {\\n            this.id = id;\\n        }\\n        \\n        String getVersion() {\\n            return version;\\n        }\\n        \\n        void setVersion(String version) {\\n            this.version = version;\\n        }\\n        \\n        String getDataSetInternalID() { \\n            return dataSetInternalID;\\n        }\\n        \\n        void setDataSetInternalID(String dataSetInternalID) { \\n            this.dataSetInternalID = dataSetInternalID;\\n        }\\n    }\\n}\"}","customParams":[{"name":"id","type":"STRING","description":"","nullable":false,"value":"42d1385b-178a-4a04-b58c-1d5668c32ffd"},{"name":"version","type":"STRING","description":"","nullable":true,"value":"00.00.001"},{"name":"dataSetInternalID","type":"STRING","description":"","nullable":true,"value":"0"}],"formatType":"API_DATA"}'
+
+
+### 
+curl -X POST 'http://123.57.86.188:32081/api/dataset/local/recognizeSchema' \
+  -H 'x-authentication-version: 1.0' \
+  -H 'x-authentication-type: isv' \
+  -H 'x-tenant-id: pds1Admin' \
+  -H 'x-isv-ak: pzeUK+obho+uFPeS' \
+  -H 'x-signature-method: SHA256_HMAC' \
+  -H 'x-signature: VV/KRbt/zePbDZNc2swMMbqyG1ZR2k9MzSqeThvfNS8=' \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"testdata","description":"testdata","datasourceType":"API","locationConfig":"{}","formatConfig":"{}","connConfig":"{\"script\":\"package com.antgroup.antchain.fastdf.dataproxy.manager.connector.api\\n\\nimport com.alibaba.fastjson.JSONArray\\nimport com.alibaba.fastjson.JSONObject\\nimport com.antgroup.antchain.idata.rest.component.common.data.AbstractRestApiDataFetchAdaptor\\nimport com.antgroup.antchain.idata.rest.component.common.model.FetchDataResultBO\\nimport com.antgroup.antchain.idata.rest.component.common.model.RestApiDataSourceConfigBO\\nimport com.antgroup.antchain.fastdf.dataproxy.manager.connector.api.relateObject.DatasetMetaTableSchemaFieldTypeEnum\\nimport com.antgroup.antchain.fastdf.dataproxy.manager.connector.api.relateObject.ApiDatasetResponse\\nimport com.antgroup.antchain.fastdf.dataproxy.manager.connector.api.relateObject.DatasetTableSchemaFieldData\\nimport lombok.AllArgsConstructor\\nimport lombok.Builder\\nimport lombok.Data\\nimport lombok.NoArgsConstructor\\nimport okhttp3.*\\nimport org.apache.commons.lang3.ObjectUtils\\n\\nimport javax.validation.constraints.NotBlank\\n\\nclass DatasetDemo extends AbstractRestApiDataFetchAdaptor<DatasetRequest, ApiDatasetResponse> {\\n\\n    DatasetDemo(OkHttpClient client, RestApiDataSourceConfigBO config) {\\n        super(client, config)\\n    }\\n\\n    @Override\\n    Request.Builder createNewCall(DatasetRequest validatedCondition, String token) throws Exception {\\n\\n        String url = 'https://qgzvkongdjqiiamzbbts.supabase.co/functions/v1/request_process_data'\\n\\n        JSONObject requestBody = new JSONObject()\\n        if (!ObjectUtils.isEmpty(validatedCondition)) {\\n            if (!ObjectUtils.isEmpty(validatedCondition.getId())) {\\n                requestBody.put('id', validatedCondition.getId())\\n            }\\n            if (!ObjectUtils.isEmpty(validatedCondition.getVersion())) {\\n                requestBody.put('version', validatedCondition.getVersion())\\n            }\\n            if (!ObjectUtils.isEmpty(validatedCondition.getDataSetInternalID())) {\\n                requestBody.put('dataSetInternalID', validatedCondition.getDataSetInternalID())\\n            }\\n        }\\n\\n        RequestBody body = RequestBody.create(MediaType.parse('application/json'),\\n                requestBody.toJSONString());\\n\\n        return new Request.Builder()\\n                .url(url)\\n                .post(body)\\n                .addHeader('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnenZrb25nZGpxaWlhbXpiYnRzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAzNjUyMzQsImV4cCI6MjA1NTk0MTIzNH0.PsZIcjAqexpqIg-91twpKjALyw9big6Bn4WRLLoCzTo')\\n                .addHeader('Content-Type', 'application/json')\\n                .addHeader('x_key', '1qaZ_Xsw2_Mju7');\\n    }\\n\\n    @Override\\n    protected FetchDataResultBO<ApiDatasetResponse> parseHttpResponse(DatasetRequest apiDatasetRequest, String body) {\\n\\n        JSONObject res = JSONObject.parseObject(body)\\n        JSONArray data = res.getJSONArray('value')\\n        ApiDatasetResponse response = new ApiDatasetResponse()\\n        List<List<DatasetTableSchemaFieldData>> dataList = new ArrayList<>()\\n        List<DatasetTableSchemaFieldData> datasetTableSchemaFieldDataList = new ArrayList<>()\\n\\n        for (int i = 0; i < data.size(); i++) {                \\n            DatasetTableSchemaFieldData datasetTableSchemaFieldData = new DatasetTableSchemaFieldData()\\n            datasetTableSchemaFieldData.setFieldName(\\\"value_\\\" + i)\\n            datasetTableSchemaFieldData.setFieldType(DatasetMetaTableSchemaFieldTypeEnum.DOUBLE)\\n            datasetTableSchemaFieldData.setCurrentType(DatasetMetaTableSchemaFieldTypeEnum.DOUBLE)\\n            datasetTableSchemaFieldData.setCurrentValue(data.get(i))\\n            datasetTableSchemaFieldDataList.add(datasetTableSchemaFieldData)\\n        }\\n        \\n        dataList.add(datasetTableSchemaFieldDataList)\\n        response.setDataList(dataList)\\n        response.setJsonResult(body)\\n        return FetchDataResultBO.success(response)\\n    }\\n\\n    @Data\\n    @Builder\\n    @NoArgsConstructor\\n    @AllArgsConstructor\\n    static class DatasetRequest {\\n        @NotBlank\\n        public String id;\\n        \\n        public String version;\\n        \\n        public String dataSetInternalID;  \\n\\n        String getId() {\\n            return id;\\n        }\\n        \\n        void setId(String id) {\\n            this.id = id;\\n        }\\n        \\n        String getVersion() {\\n            return version;\\n        }\\n        \\n        void setVersion(String version) {\\n            this.version = version;\\n        }\\n        \\n        String getDataSetInternalID() { \\n            return dataSetInternalID;\\n        }\\n        \\n        void setDataSetInternalID(String dataSetInternalID) { \\n            this.dataSetInternalID = dataSetInternalID;\\n        }\\n    }\\n}\"}","customParams":[{"name":"id","type":"STRING","description":"","nullable":false,"value":"42d1385b-178a-4a04-b58c-1d5668c32ffd"},{"name":"version","type":"STRING","description":"","nullable":true,"value":"00.00.001"},{"name":"dataSetInternalID","type":"STRING","description":"","nullable":true,"value":"0"}],"formatType":"API_DATA"}'
+
+
+### 
+curl -X GET 'http://123.57.86.188:32081/api/app/instance/query?appId=APP_20250323164059_kHFeIqTg&envId=ENV_20250323163915_8EJkp60z&instanceId=INSTANCE_20250325125333_THl8hLzC&projectId=PROJ_20250323163915_2nW3f7wz' \
+  -H 'x-authentication-version: 1.0' \
+  -H 'x-authentication-type: isv' \
+  -H 'x-tenant-id: pds1Admin' \
+  -H 'x-isv-ak: pzeUK+obho+uFPeS' \
+  -H 'x-signature-method: SHA256_HMAC' \
+  -H 'x-signature: dr2qnrCleyJNl6tnC/Cj4vuD71uERi+cBBSzSWlueWY='
