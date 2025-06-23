@@ -31,7 +31,7 @@ router.get("/compute-types", (c) => {
 router.post("/privacy/tasks", async (c) => {
   try {
     const body = await c.req.json();
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     // 验证必要字段
     if (!body.computeType || !body.inputData) {
@@ -94,7 +94,7 @@ router.post("/privacy/tasks", async (c) => {
 router.get("/privacy/tasks/:taskId/status", async (c) => {
   try {
     const taskId = c.req.param('taskId');
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     if (!taskId) {
       return c.json({
@@ -136,7 +136,7 @@ router.get("/privacy/tasks/:taskId/status", async (c) => {
 router.get("/privacy/tasks/:taskId/result", async (c) => {
   try {
     const taskId = c.req.param('taskId');
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     if (!taskId) {
       return c.json({
@@ -178,7 +178,7 @@ router.get("/privacy/tasks/:taskId/result", async (c) => {
 router.delete("/privacy/tasks/:taskId", async (c) => {
   try {
     const taskId = c.req.param('taskId');
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     if (!taskId) {
       return c.json({
@@ -224,7 +224,7 @@ router.delete("/privacy/tasks/:taskId", async (c) => {
 router.post("/contracts/deploy", async (c) => {
   try {
     const body = await c.req.json();
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     // 验证必要字段
     if (!body.contractCode || !body.contractName) {
@@ -275,7 +275,7 @@ router.post("/contracts/deploy", async (c) => {
 router.post("/contracts/call", async (c) => {
   try {
     const body = await c.req.json();
-    const token = c.get('token');
+    const token = c.req.header('x-antchain-token') || '';
     
     // 验证必要字段
     if (!body.contractName || !body.methodSignature) {

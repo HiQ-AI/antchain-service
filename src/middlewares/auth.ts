@@ -8,12 +8,9 @@ import { BlockchainService } from "../services/blockchain.ts";
 export const authMiddleware: MiddlewareHandler = async (c, next) => {
   try {
     // 从请求头获取token
-    const authHeader = c.req.header('Authorization');
-    let token: string | null = null;
+    let token: string | null = c.req.header('x-antchain-token') || null;
     
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      token = authHeader.substring(7);
-    } else {
+    if (!token) {
       // 如果没有提供token，尝试获取一个新的token
       token = await BlockchainService.getAuthToken();
     }
