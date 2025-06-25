@@ -4,4 +4,4 @@ node_modules
 *.key
 *.env
 
-certs/hiq/
+certs/hiq*

@@ -44,3 +44,5 @@ export const blockChainEndpoint = {
       shakeHand: '/api/contract/shakeHand',
     }
 }
+
+console.log(defaultConfig);

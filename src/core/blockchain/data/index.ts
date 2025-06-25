@@ -36,6 +36,7 @@ export class BlockchainData {
       const responseText = await response.text();
       try {
         const data = JSON.parse(responseText);
+        console.log('data', data);
         return {
           success: data.success ?? true,
           data: data.data,
@@ -121,6 +122,9 @@ export class BlockchainData {
         headers: headers,
         body: JSON.stringify(requestBody)
       });
+
+      console.log('response', JSON.stringify(response, null, 2));
+      console.log('response', response);
       
       // 处理响应并提取交易哈希
       const result = await this.processResponse(response, 'Data deposit successful');
@@ -137,6 +141,7 @@ export class BlockchainData {
           result.data = requestBody.orderId;
         }
       }
+      console.log('result', result);
       
       return result;
     } catch (error) {

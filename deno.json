@@ -3,7 +3,7 @@
     "dev": "deno run --watch --allow-read --allow-net --allow-env main.ts",
     "test": "deno test --allow-read --allow-net --allow-env",
     "compile": "myfish compile",
-    "start": "npm run dev",
+    "start": "deno run -A src/server.ts",
     "build": "cross-env APP_ROOT=web umi build"
   },
   "imports": {

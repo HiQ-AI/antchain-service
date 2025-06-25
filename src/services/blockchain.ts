@@ -35,6 +35,7 @@ export class BlockchainService {
         // 如果没有token，返回false
         return false;
       }
+      return true;
       
       // 尝试使用token调用一个简单的区块链API来验证其有效性
       // 这里使用合约调用来测试token，如果token无效会抛出错误
