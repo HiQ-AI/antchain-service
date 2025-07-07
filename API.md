@@ -181,20 +181,6 @@ curl -X POST {BASE_URL}/api/node/data/query \
   -d '{"dataId": "2b50c37a1bcd977d21c928477bdfa9e8163c50f927e6d3431488fc0067fab210"}'
 ```
 
-带过滤器查询:
-
-```bash
-curl -X POST {BASE_URL}/api/node/data/query \
-  -H "Content-Type: application/json" \
-  -H "x-antchain-token: your-token-here" \
-  -d '{
-    "dataId": "12345",
-    "filters": {
-      "type": "user_record"
-    }
-  }'
-```
-
 ### 解析数据
 
 解析区块链响应数据:
