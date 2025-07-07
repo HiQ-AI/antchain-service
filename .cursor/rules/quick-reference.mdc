@@ -1,13 +1,15 @@
 ---
-description: 
-globs: 
+description:
+globs:
 alwaysApply: false
 ---
+
 # Quick Reference
 
 ## Essential Commands
 
 ### Development
+
 ```bash
 # Start development server
 deno task dev
@@ -22,16 +24,19 @@ deno run -A src/examples/privacy-example.ts
 ```
 
 ### HTTP Testing
+
 Use [test.http](mdc:test.http) for API testing with HTTP client
 
 ## Key Files Quick Access
 
 ### Entry Points
+
 - **Main Server**: [src/server.ts](mdc:src/server.ts)
 - **Configuration**: [src/config/index.ts](mdc:src/config/index.ts)
 - **Dependencies**: [src/deps.ts](mdc:src/deps.ts)
 
 ### Core Blockchain
+
 - **Main**: [src/core/blockchain/index.ts](mdc:src/core/blockchain/index.ts)
 - **Auth**: [src/core/blockchain/auth/index.ts](mdc:src/core/blockchain/auth/index.ts)
 - **Data**: [src/core/blockchain/data/index.ts](mdc:src/core/blockchain/data/index.ts)
@@ -39,6 +44,7 @@ Use [test.http](mdc:test.http) for API testing with HTTP client
 - **Privacy**: [src/core/blockchain/privacy/index.ts](mdc:src/core/blockchain/privacy/index.ts)
 
 ### API Layer
+
 - **Routes**: [src/routes/](mdc:src/routes) - auth.ts, admin.ts, node.ts
 - **Middlewares**: [src/middlewares/](mdc:src/middlewares) - auth.ts, error.ts, logger.ts
 - **Services**: [src/services/](mdc:src/services) - auth.ts, privacy.ts, query.ts
@@ -46,28 +52,32 @@ Use [test.http](mdc:test.http) for API testing with HTTP client
 ## Common Code Patterns
 
 ### Blockchain Module Usage
+
 ```typescript
-import { blockchain } from 'src/core/blockchain/index.ts';
+import { blockchain } from "src/core/blockchain/index.ts";
 
 // Get authentication token
 const token = await blockchain.auth.getToken();
 
 // Store data on blockchain
-const result = await blockchain.data.deposit('your-data');
+const result = await blockchain.data.deposit("your-data");
 
 // Call smart contract
-const contractResult = await blockchain.contract.getName('contract-name');
+const contractResult = await blockchain.contract.getName("contract-name");
 
 // Create privacy task
 const privacyResult = await blockchain.privacy.createPrivacyTask({
-  computeType: 'TEE',
-  inputData: { /* your data */ }
+  computeType: "TEE",
+  inputData: {
+    /* your data */
+  },
 });
 ```
 
 ### Configuration Access
+
 ```typescript
-import { defaultConfig } from 'src/config/index.ts';
+import { defaultConfig } from "src/config/index.ts";
 
 const appConfig = defaultConfig.app;
 const blockchainConfig = defaultConfig.blockchain;
@@ -75,6 +85,7 @@ const tcsConfig = defaultConfig.tcs;
 ```
 
 ### Error Handling
+
 ```typescript
 try {
   const result = await blockchain.operation();
@@ -89,43 +100,50 @@ try {
 ```
 
 ### Hono Framework Usage
+
 ```typescript
-import { Hono } from 'src/deps.ts';
+import { Hono } from "src/deps.ts";
 
 const app = new Hono();
 
-app.get('/api/endpoint', async (c) => {
+app.get("/api/endpoint", async (c) => {
   try {
     const result = await someOperation();
     return c.json({
       success: true,
-      data: result
+      data: result,
     });
   } catch (error) {
-    return c.json({
-      success: false,
-      message: error.message
-    }, 500);
+    return c.json(
+      {
+        success: false,
+        message: error.message,
+      },
+      500
+    );
   }
 });
 
 // Middleware usage
-app.use('*', middlewareFunction);
-app.use('/protected/*', authMiddleware);
+app.use("*", middlewareFunction);
+app.use("/protected/*", authMiddleware);
 
 // Route mounting
-app.route('/api/auth', authRouter);
+app.route("/api/auth", authRouter);
 ```
 
 ## Environment Variables
 
 ### Required Variables
+
 - `PORT`: Server port (default: 8000)
 - `HOST`: Server host (default: localhost)
 - `ENV`: Environment (development/production/test)
 
 ### Blockchain Configuration
+
 Set in [src/config/blockchain.ts](mdc:src/config/blockchain.ts):
+
 - `BLOCKCHAIN_REST_URL`
 - `BLOCKCHAIN_ACCESS_ID`
 - `BLOCKCHAIN_TENANT_ID`
@@ -136,27 +154,32 @@ Set in [src/config/blockchain.ts](mdc:src/config/blockchain.ts):
 ## File Extensions
 
 ### TypeScript Files
+
 - `.ts` - TypeScript source files
 - Use strict TypeScript configuration
 - All imports should include file extensions
 
 ### Configuration Files
+
 - `deno.json` - Deno project configuration
 - `deno.lock` - Dependency lock file
 
 ### Data Files
+
 - [data/dynamicParam.json](mdc:data/dynamicParam.json) - Parameter examples
 - [data/receiptResult.json](mdc:data/receiptResult.json) - Result examples
 
 ### Certificates
+
 - [certs/access.key.example](mdc:certs/access.key.example) - Access key template
 - [certs/restAkPrivate_key.key.example](mdc:certs/restAkPrivate_key.key.example) - Private key template
 
 ## Privacy Computing Types
 
 Quick reference for privacy compute types:
+
 - **TEE**: Trusted Execution Environment
-- **MPC**: Multi-Party Computation  
+- **MPC**: Multi-Party Computation
 - **FHE**: Fully Homomorphic Encryption
 - **FEDERATED**: Federated Learning
 - **SMPC**: Secure Multi-Party Computation
@@ -164,14 +187,17 @@ Quick reference for privacy compute types:
 ## API Endpoints Structure
 
 ### Public Endpoints (No Auth)
+
 - `/api` - API information
 - `/auth/*` - Authentication endpoints
 
 ### Protected Endpoints (Auth Required)
+
 - `/admin/*` - Administrative operations
 - `/node/*` - Node operations
 
 ### Middleware Order
+
 1. Error handling
 2. Logging
 3. Authentication (for protected routes)

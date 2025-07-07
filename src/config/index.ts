@@ -34,8 +34,8 @@ export const defaultConfig: AppConfig = {
   app: {
     name: '蚂蚁链服务',
     version: '1.0.0',
-    port: parseInt(Deno.env.get('PORT') || '8000'),
-    host: Deno.env.get('HOST') || 'localhost',
+    port: parseInt(Deno.env.get('PORT') || '8080'),
+    host: Deno.env.get('HOST') || '0.0.0.0',
     environment: (Deno.env.get('ENV') || 'development') as 'development' | 'production' | 'test',
     description: '提供隐私计算任务的创建、数据推送和结果获取功能'
   },
