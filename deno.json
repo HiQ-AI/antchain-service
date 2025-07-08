@@ -7,6 +7,7 @@
     "build": "cross-env APP_ROOT=web umi build"
   },
   "imports": {
+    "@antchain/baasdatagw": "npm:@antchain/baasdatagw@^1.4.10",
     "@antchain/myassembly": "npm:@antchain/myassembly@^1.2.0",
     "@antchain/mychain": "npm:@antchain/mychain@^0.4.2",
     "src/": "./src/",

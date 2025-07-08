@@ -19,6 +19,10 @@ export * from './data/types.ts';
 export * from './privacy/index.ts';
 export * from './privacy/types.ts';
 
+
+// 导出BaaS DataGW模块
+export * from './baasdatagw/index.ts';
+
 // 导出通用类型
 export * from './types.ts';
 
@@ -27,6 +31,7 @@ import { BlockchainAuth } from './auth/index.ts';
 import { BlockchainContract } from './contract/index.ts';
 import { BlockchainData } from './data/index.ts';
 import { BlockchainPrivacy } from './privacy/index.ts';
+import { BaasDataGW } from './baasdatagw/index.ts';
 import { defaultConfig } from '../../deps.ts';
 
 // 区块链功能聚合对象
@@ -34,7 +39,8 @@ export const blockchain = {
   auth: new BlockchainAuth(defaultConfig.blockchain),
   contract: new BlockchainContract(),
   data: new BlockchainData(),
-  privacy: new BlockchainPrivacy()
+  privacy: new BlockchainPrivacy(),
+  baasdatagw: new BaasDataGW()
 };
 
 // 默认导出区块链功能集合

@@ -139,6 +139,37 @@
 }
 ```
 
+## 二维码生成端点
+
+### POST /api/node/qrcode/create
+
+生成可用支付宝扫描访问的二维码
+
+#### 请求体
+
+```json
+{
+  "params": [
+    {
+      "key": "txId",
+      "value": "0b2e18ad5477f174dcda9174f7c97841087d0f583429287c73ab8cc236d66b29", // 哈希值
+      "type": "String"
+    }
+  ]
+}
+```
+
+#### 响应
+
+```json
+{
+  "success": true,
+  "data": {
+    "qrCodePng": "data:image/png;base64,..."
+  }
+}
+```
+
 #### 注意事项
 
 - 此端点不需要认证

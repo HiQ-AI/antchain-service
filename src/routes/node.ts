@@ -289,6 +289,50 @@ router.post("/contracts/call", async (c) => {
   }
 });
 
+
+/**
+ * 使用SDK生成二维码
+ * POST /api/node/qrcode/sdk
+ */
+router.post("/qrcode/create", async (c) => {
+  try {
+    const body = await c.req.json();
+    console.log('Body:', body);
+    // 调用区块链服务使用SDK生成二维码
+    const result = await BlockchainService.createQRCode(
+      body.params,
+      body.pageType,
+      body.bizId,
+    );
+    
+    if (result.success && result.data) {
+      return c.json({
+        success: true,
+        data: {
+          qrCodePng: result.data.qrCodePng,
+          requestId: result.data.requestId
+        },
+        message: "二维码生成成功"
+      });
+    } else {
+      return c.json({
+        success: false,
+        code: result.code || "SDK_QRCODE_FAILED",
+        message: result.message || "二维码生成失败"
+      }, Status.InternalServerError);
+    }
+  } catch (error) {
+    console.error("Generate QR code with SDK error:", error);
+    return c.json({
+      success: false,
+      code: "SERVER_ERROR",
+      message: "服务器处理请求时发生错误"
+    }, Status.InternalServerError);
+  }
+});
+
+
+
 /**
  * 节点健康检查
  * GET /api/node/health

@@ -7,7 +7,7 @@ import {
   DataQueryParams,
   PrivacyComputeParams,
   TransactionStatus,
-  PrivacyComputeType
+  PrivacyComputeType,
 } from '../core/blockchain/index.ts';
 
 /**
@@ -248,6 +248,37 @@ export class BlockchainService {
         success: false,
         message: 'Failed to cancel privacy task',
         code: 'PRIVACY_CANCEL_ERROR'
+      };
+    }
+  }
+
+  /**
+   * 使用BaaS DataGW SDK生成二维码
+   * @param pageType 页面类型
+   * @param params 参数列表
+   * @param bizId 链ID（可选）
+   * @param useBlockchainAuth 是否使用区块链认证
+   * @returns 包含Base64编码的PNG二维码
+   */
+  static async createQRCode(
+    params: Array<{ key: string; value: string; type?: string }>,
+    pageType?: 'CONTRACT' | 'HEXADDRESS' | 'TX' | 'CHAIN' | 'BLOCK' | 'TIMELINE',
+    bizId?: string,
+  ): Promise<ApiResponse> {
+    try {
+
+      const result = await blockchain.baasdatagw.createQRCode(
+        params,
+        bizId,
+        pageType
+        );
+      return result;
+    } catch (error) {
+      console.error('QR code creation with SDK error:', error);
+      return {
+        success: false,
+        message: 'Failed to create QR code with SDK',
+        code: 'SDK_QRCODE_ERROR'
       };
     }
   }

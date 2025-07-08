@@ -5,6 +5,7 @@ import { BaseContract } from '@antchain/myassembly';
 // Constants
 // Path to the private key file (relative to project root)
 const PRIVATE_KEY_PATH = './certs/restAkPrivate_key.key';
+const ACCESS_KEY_PATH = './certs/access.key';
 
 /**
  * Function to convert Base64 to Hex
@@ -90,7 +91,9 @@ export class BlockchainAuth {
     expiresAt: number;
   } = { token: null, expiresAt: 0 };
   private privateKey: string | null = null;
+  private accessKey: string | null = null;
   private keyPath: string;
+  private accessKeyPath: string;
 
   /**
    * Create a new BlockchainAuth instance
@@ -100,6 +103,7 @@ export class BlockchainAuth {
   constructor(config?: Partial<BlockchainConfig>, keyPath?: string) {
     this.config = { ...defaultConfig, ...config };
     this.keyPath = keyPath || PRIVATE_KEY_PATH;
+    this.accessKeyPath = ACCESS_KEY_PATH;
   }
 
   /**
@@ -125,6 +129,25 @@ export class BlockchainAuth {
       console.error('Error loading private key:', error);
       throw error;
     }
+  }
+
+  async loadAccessKey(): Promise<void> {
+    const envAccessKey = Deno.env.get('BLOCKCHAIN_ACCESS_KEY');
+    if (envAccessKey) {
+      this.accessKey = envAccessKey.trim();
+      console.log('Access key loaded successfully from environment variable');
+    } else {
+      const accessKey = await Deno.readTextFile(ACCESS_KEY_PATH);
+      this.accessKey = accessKey.trim();
+      console.log('Access key loaded successfully from file');
+    }
+  }
+
+  async getAccessKey(): Promise<string> {
+    if (!this.accessKey) {
+      await this.loadAccessKey();
+    }
+    return this.accessKey || '';
   }
 
   /**
@@ -181,10 +204,10 @@ export class BlockchainAuth {
   }
 
   /**
-   * Request a new token from the blockchain API
-   * @returns API response with token data
+   * Get the secret from the private key
+   * @returns Secret
    */
-  private async requestToken(): Promise<string | null> {
+  async getSecret(): Promise<string> {
     try {
       const now = Date.now();
       
@@ -198,6 +221,32 @@ export class BlockchainAuth {
       // Convert Base64 encoded secret to hex
       const secret = base64ToHex(secretBase64);
       
+      return secret;
+    } catch (error) {
+      console.error('Error requesting token:', error);
+      return '';
+    }
+  }
+
+  /**
+   * Request a new token from the blockchain API
+   * @returns API response with token data
+   */
+  private async requestToken(): Promise<string | null> {
+    try {
+      const accessId = this.config.accessId;
+
+      const now = Date.now();
+      
+      // if (!this.privateKey) {
+      //   throw new Error('Private key is not available');
+      // }
+      
+      // // Generate signature
+      // const secretBase64 = await signData(accessId + now, this.privateKey);
+      // // Convert Base64 encoded secret to hex
+      // const secret = base64ToHex(secretBase64);
+      const secret = await this.getSecret();
       const params = {
         'accessId': accessId,
         'time': now.toString(),
