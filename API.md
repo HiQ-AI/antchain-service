@@ -219,3 +219,18 @@ curl -X POST {BASE_URL}/api/node/data/parse \
 ```
 
 解析器将解码 base64 数据（`IkhlbGxvLCBXb3JsZCEi` 解码为 `"Hello, World!"`）并返回解析后的区块链交易详情。
+
+### 生成二维码
+
+```bash
+curl -X POST {BASE_URL}/api/node/qrcode/create \
+  -d '{
+    "params": [
+      {
+        "key": "txId",
+        "value": "0b2e18ad5477f174dcda9174f7c97841087d0f583429287c73ab8cc236d66b29",
+        "type": "String"
+      }
+    ]
+  }'
+```
