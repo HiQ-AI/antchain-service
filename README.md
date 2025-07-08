@@ -31,17 +31,17 @@ deno run -A src/server.ts
 ### Build
 
 ```bash
-docker buildx build --platform linux/amd64 -t registry.cn-sh1.ctyun.cn/hiq-ai/antchain-service:20250707-2 .
+docker buildx build --platform linux/amd64 -t registry.cn-sh1.ctyun.cn/hiq-ai/antchain-service:20250708-0 .
 ```
 
 ### Push
 
 ```bash
-docker push registry.cn-sh1.ctyun.cn/hiq-ai/antchain-service:20250707-2
+docker push registry.cn-sh1.ctyun.cn/hiq-ai/antchain-service:20250708-0
 ```
 
 ### Run
 
 ```bash
-docker run -p 8080:8080 registry.cn-sh1.ctyun.cn/hiq-ai/antchain-service:20250707-2
+docker run -p 8080:8080 registry.cn-sh1.ctyun.cn/hiq-ai/antchain-service:20250708-0
 ```
